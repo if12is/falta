@@ -1,5 +1,6 @@
-import { copyFileSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join, relative } from "node:path";
+import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { deflateRawSync } from "node:zlib";
 
 const root = "extension";
@@ -30,7 +31,7 @@ function dosStamp(date) {
   return { time, day };
 }
 
-function zipDirectory(dir) {
+function zipDirectory(dir, overrides = new Map()) {
   const files = walk(dir).sort();
   const { time, day } = dosStamp(new Date());
   const localParts = [];
@@ -40,7 +41,7 @@ function zipDirectory(dir) {
   for (const file of files) {
     const name = relative(dir, file).split("\\").join("/");
     if (name.includes("node_modules") || name.includes(".env")) continue;
-    const data = readFileSync(file);
+    const data = overrides.has(name) ? overrides.get(name) : readFileSync(file);
     const nameBuf = Buffer.from(name, "utf8");
     const deflated = deflateRawSync(data);
     const method = deflated.length < data.length ? 8 : 0;
@@ -97,14 +98,43 @@ function zipDirectory(dir) {
   return { body: Buffer.concat([...localParts, centralBuf, end]), count: centralParts.length };
 }
 
-const built = zipDirectory(root);
-if (!built.body.includes(Buffer.from("manifest.json"))) {
-  throw new Error("zip is missing manifest.json");
+// Chrome rejects background.scripts in Manifest V3. AMO rejects service_worker
+// unless background.scripts is also present, and Firefox runs the scripts entry
+// as a classic event page, so the Firefox zip ships scripts only.
+export function firefoxManifest(manifest) {
+  const next = structuredClone(manifest);
+  next.background = { scripts: ["background.js"] };
+  return next;
 }
 
-mkdirSync("dist", { recursive: true });
-const chromium = "dist/falta-chromium.zip";
-const firefox = "dist/falta-firefox.zip";
-writeFileSync(chromium, built.body);
-copyFileSync(chromium, firefox);
-console.log(`${chromium} and ${firefox}: ${built.count} files, ${built.body.length} bytes`);
+export function buildPackages() {
+  const source = JSON.parse(readFileSync(join(root, "manifest.json"), "utf8"));
+  const firefoxJson = Buffer.from(`${JSON.stringify(firefoxManifest(source), null, 2)}\n`, "utf8");
+  return {
+    chromium: zipDirectory(root),
+    firefox: zipDirectory(root, new Map([["manifest.json", firefoxJson]])),
+  };
+}
+
+function ranAsScript() {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  return pathToFileURL(resolve(entry)).href === import.meta.url;
+}
+
+if (ranAsScript()) {
+  const { chromium, firefox } = buildPackages();
+  for (const built of [chromium, firefox]) {
+    if (!built.body.includes(Buffer.from("manifest.json"))) {
+      throw new Error("zip is missing manifest.json");
+    }
+  }
+
+  mkdirSync("dist", { recursive: true });
+  const chromiumPath = "dist/falta-chromium.zip";
+  const firefoxPath = "dist/falta-firefox.zip";
+  writeFileSync(chromiumPath, chromium.body);
+  writeFileSync(firefoxPath, firefox.body);
+  console.log(`${chromiumPath}: ${chromium.count} files, ${chromium.body.length} bytes`);
+  console.log(`${firefoxPath}: ${firefox.count} files, ${firefox.body.length} bytes`);
+}
