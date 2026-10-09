@@ -104,6 +104,9 @@ function zipDirectory(dir, overrides = new Map()) {
 export function firefoxManifest(manifest) {
   const next = structuredClone(manifest);
   next.background = { scripts: ["background.js"] };
+  next.browser_specific_settings ??= {};
+  next.browser_specific_settings.gecko ??= {};
+  next.browser_specific_settings.gecko.data_collection_permissions = { required: ["none"] };
   return next;
 }
 

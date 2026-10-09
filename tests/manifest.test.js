@@ -32,6 +32,10 @@ function readZipEntry(zip, wanted) {
 test("manifest is a local MV3 add-on for Chromium and Firefox", () => {
   assert.equal(manifest.manifest_version, 3);
   assert.equal(manifest.browser_specific_settings.gecko.id, "falta@if12is.github.io");
+  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version, "115.0");
+  assert.deepEqual(manifest.browser_specific_settings.gecko.data_collection_permissions, {
+    required: ["none"],
+  });
   assert.equal(manifest.commands.flip.suggested_key.default, "Ctrl+Shift+X");
   assert.equal(manifest.commands.flip.suggested_key.mac, "Command+Shift+X");
   assert.equal(manifest.host_permissions, undefined);
@@ -46,6 +50,10 @@ test("firefox package uses background.scripts and chromium keeps service_worker 
   assert.equal(firefox.background.service_worker, undefined);
   assert.equal(firefox.manifest_version, manifest.manifest_version);
   assert.equal(firefox.browser_specific_settings.gecko.id, manifest.browser_specific_settings.gecko.id);
+  assert.equal(firefox.browser_specific_settings.gecko.strict_min_version, "115.0");
+  assert.deepEqual(firefox.browser_specific_settings.gecko.data_collection_permissions, {
+    required: ["none"],
+  });
   assert.deepEqual(firefox.permissions, manifest.permissions);
 
   const packed = buildPackages();
@@ -55,6 +63,9 @@ test("firefox package uses background.scripts and chromium keeps service_worker 
   assert.equal(chromiumManifest.background.scripts, undefined);
   assert.deepEqual(firefoxManifestJson.background, { scripts: ["background.js"] });
   assert.equal(firefoxManifestJson.background.service_worker, undefined);
+  assert.deepEqual(firefoxManifestJson.browser_specific_settings.gecko.data_collection_permissions, {
+    required: ["none"],
+  });
   const { background: chromiumBackground, ...chromiumRest } = chromiumManifest;
   const { background: firefoxBackground, ...firefoxRest } = firefoxManifestJson;
   assert.deepEqual(firefoxRest, chromiumRest);
