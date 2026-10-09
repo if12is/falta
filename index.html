@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>فلتة — الحروف فلتت منك؟</title>
+  <meta name="description" content="هوية فلتة: قالب طباعة يقلب الحروف بين العربي والإنجليزي على جهازك. ليك ولصحابك.">
+  <link rel="icon" href="brand/mark.png">
+  <link rel="stylesheet" href="web/styles.css">
+  <link rel="stylesheet" href="web/mascot.css">
+  <link rel="stylesheet" href="web/brand.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem("falta-theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+      else if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+</head>
+<body class="identity">
+  <a class="skip" href="#open" data-i18n="skip">للدعوة</a>
+  <header class="mast">
+    <a class="brand" href="#top"><img src="brand/mark.png" width="36" height="36" alt=""><span>فلتة</span></a>
+    <nav data-i18n-aria="nav.label" aria-label="الأقسام">
+      <a href="web/index.html#tool" data-i18n="nav.tool">الأداة</a>
+      <a href="#how" data-i18n="nav.how">الفكرة</a>
+      <a href="#install" data-i18n="nav.install">التثبيت</a>
+      <a href="#faq" data-i18n="nav.faq">أسئلة</a>
+    </nav>
+    <div class="mast-actions">
+      <button class="ghost" id="lang" type="button">EN</button>
+      <button class="ghost" id="theme" type="button" data-i18n-aria="theme" aria-label="السمة">◐</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="eyebrow">ليك ولصحابك</p>
+        <h1 data-i18n="hero.title">الحروف فلتت منك؟</h1>
+        <p class="lede" data-i18n="hero.lede">كتبت وإنت ناسي تغيّر اللغة. فلتة ترجّع كل حرف لمفتاحه. التميمة قالب طباعة خزفي: عينين ثقبين، حرف ع، وحزام نحاس.</p>
+        <a class="flip" id="open" href="web/index.html#tool" data-i18n="open">اقلب النص</a>
+      </div>
+      <figure class="hero-figure">
+        <div class="mascot" data-mascot>
+          <div class="mascot-stage">
+            <div class="mascot-shadow" aria-hidden="true"></div>
+            <div class="mascot-block">
+              <img class="mascot-face" src="brand/mascot.png" width="640" height="640" data-i18n-alt="mascot" alt="تميمة فلتة: قالب طباعة خزفي، حرف ع وحزام نحاس">
+              <span class="mascot-back" aria-hidden="true"></span>
+              <span class="mascot-side mascot-side-left" aria-hidden="true"></span>
+              <span class="mascot-side mascot-side-right" aria-hidden="true"></span>
+              <span class="mascot-side mascot-side-top" aria-hidden="true"></span>
+              <span class="mascot-side mascot-side-bottom" aria-hidden="true"></span>
+            </div>
+          </div>
+          <p class="mascot-hint" data-i18n="mascot.hint">حرّك المؤشر، أو ميل الجهاز</p>
+          <button class="ghost tilt" id="tilt-permit" type="button" hidden data-i18n="tilt">اسمح بميل الجهاز</button>
+        </div>
+      </figure>
+    </section>
+
+    <section class="proof" data-i18n-aria="proof.label" aria-label="اللي نقدر نقوله بصدق">
+      <p data-i18n="proof.device">التحويل على الجهاز</p>
+      <p data-i18n="proof.net">الإضافة من غير صلاحية شبكة</p>
+      <p data-i18n="proof.friends">ليك ولصحابك، من غير عدد مستخدمين</p>
+    </section>
+
+    <section class="band galley" id="how">
+      <div class="wrap">
+        <h2 data-i18n="problem.title">مش ترجمة. الحرف راجع لمفتاحه.</h2>
+        <div class="galley-grid">
+          <article class="specimen bad">
+            <span class="specimen-label" data-i18n="problem.wrong">اللي طلع</span>
+            <p dir="ltr"><bdi>;dt phg;</bdi></p>
+          </article>
+          <div class="arrow" aria-hidden="true"></div>
+          <article class="specimen good">
+            <span class="specimen-label" data-i18n="problem.right">المقصود</span>
+            <p>كيف حالك</p>
+          </article>
+        </div>
+        <p data-i18n="problem.body">الكاف هو مفتاح `;`. عشان كده `;dt phg;` تبقى «كيف حالك»، و`dt phg;` من غير الكاف تبقى «يف حالك».</p>
+      </div>
+    </section>
+
+    <section class="band" id="features">
+      <div class="wrap sorts">
+        <article class="sort">
+          <p class="sort-index">01</p>
+          <div class="sort-copy">
+            <h3 data-i18n="f1.title">اختصار في أي صفحة</h3>
+            <p data-i18n="f1.body">علّم النص واضغط Ctrl+Shift+X. على الماك Command+Shift+X.</p>
+          </div>
+          <div class="sort-spec specimen-ui"><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>X</kbd></div>
+        </article>
+        <article class="sort">
+          <p class="sort-index">02</p>
+          <div class="sort-copy">
+            <h3 data-i18n="f2.title">زر صغير جنب التحديد</h3>
+            <p data-i18n="f2.body">يظهر لما تعلّم كلام. لو مضايقك، اقفله من الإعدادات.</p>
+          </div>
+          <div class="sort-spec specimen-ui"><img src="brand/mark.png" alt="" width="44" height="44"></div>
+        </article>
+        <article class="sort">
+          <p class="sort-index">03</p>
+          <div class="sort-copy">
+            <h3 data-i18n="f3.title">لوحتين، مش تخمين صامت</h3>
+            <p data-i18n="f3.body">عربي ١٠١ هو الافتراضي على ويندوز ولينكس وماك Arabic-PC. عربي الماك الأصلي اختيار ظاهر، لأن الصف السفلي مختلف.</p>
+          </div>
+          <div class="sort-spec specimen-ui" dir="ltr"><bdi>z → ئ / ظ</bdi></div>
+        </article>
+        <article class="sort">
+          <p class="sort-index">04</p>
+          <div class="sort-copy">
+            <h3 data-i18n="f4.title">النص ما بيسافرش</h3>
+            <p data-i18n="f4.body">مفيش سيرفر بياخد الكلام. صفحة الأداة بتحوّل في المتصفح، والنص مش بيتبعت.</p>
+          </div>
+          <div class="sort-spec specimen-ui" data-i18n="f4.spec">٠ طلبات شبكة للنص</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap">
+        <h2 data-i18n="ex.title">مواقف، مش آراء ناس</h2>
+        <p data-i18n="ex.note">دي أمثلة استخدام، مش شهادات. مفيش أسماء متألفة.</p>
+        <div class="examples-list">
+          <article class="example">
+            <span class="stamp" data-i18n="ex.stamp">مثال</span>
+            <p data-i18n="ex1.body">رسالة لصاحبك اتكتبت والكيبورد إنجليزي.</p>
+            <div class="pair"><bdi dir="ltr">;dt phg;</bdi><span>كيف حالك</span></div>
+          </article>
+          <article class="example">
+            <span class="stamp" data-i18n="ex.stamp">مثال</span>
+            <p data-i18n="ex2.body">تعليق في الكود طلع حروف لاتيني وأنت كنت فاكره عربي.</p>
+            <div class="pair"><bdi dir="ltr">hgsghl</bdi><span>السلام</span></div>
+          </article>
+          <article class="example">
+            <span class="stamp" data-i18n="ex.stamp">مثال</span>
+            <p data-i18n="ex3.body">على الماك بلوحة Arabic الأصلية، z مش نفس z بتاعة ويندوز.</p>
+            <div class="pair"><bdi dir="ltr">z</bdi><span>ظ على الماك، ئ على ١٠١</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="invite" id="install">
+      <div class="wrap">
+        <p class="price" data-i18n="price">ببلاش. ليك ولصحابك.</p>
+        <h2 data-i18n="install.title">ثبّتها مرة، أو افتح الصفحة</h2>
+        <p data-i18n="install.lead">نفس مجلد extension على ويندوز ولينكس والماك. لسه مش على متجر. أي حد يقدر يحمّل المجلد، أو يستخدم الأداة من غير تثبيت.</p>
+        <ol class="steps">
+          <li data-i18n="install.chrome">كروم، إيدج، بريف، أوبرا، فيفالدي: Load unpacked على مجلد extension.</li>
+          <li data-i18n="install.firefox">فايرفوكس: إضافة مؤقتة من about:debugging. بتتشال لما المتصفح يقفل.</li>
+          <li data-i18n="install.safari">سفاري مش بيحمّل المجلد. افتح الأداة، أو اسحب زر الإشارة من هناك.</li>
+        </ol>
+        <p><a class="bookmark" href="web/index.html#tool" data-i18n="open">اقلب النص</a></p>
+        <p><a href="docs/publish.md" data-i18n="install.more">خطوات النشر للمتاجر.</a></p>
+      </div>
+    </section>
+
+    <section class="band queries" id="faq">
+      <div class="wrap">
+        <h2 data-i18n="faq.title">قبل ما تسأل صاحبك</h2>
+        <details>
+          <summary data-i18n="q1">النص بيطلع بره الجهاز؟</summary>
+          <p data-i18n="a1">لأ. التحويل يحصل عندك. الإضافة مالهاش صلاحية شبكة، والنص مش بيتخزن. العداد المحلي بيعدّ المرات بس لو ساببه مفتوح.</p>
+        </details>
+        <details>
+          <summary data-i18n="q2">تشتغل على كروم وفايرفوكس؟</summary>
+          <p data-i18n="a2">أيوه، وعلى المتصفحات المبنية على كروميوم، من مجلد extension. فايرفوكس بيحمّلها مؤقت لحد ما تقفل المتصفح.</p>
+        </details>
+        <details>
+          <summary data-i18n="q3">وسغاري؟</summary>
+          <p data-i18n="a3">سفاري مش بيقبل المجلد من غير أدوات أبل وحساب مطوّر. استخدم صفحة الأداة أو زر الإشارة.</p>
+        </details>
+        <details>
+          <summary data-i18n="q4">أنهي لوحة أختار؟</summary>
+          <p data-i18n="a4">لو بتكتب زي ويندوز، أو على الماك اخترت Arabic - PC، سيّب عربي ١٠١. لو Arabic من غير PC، حوّل لعربي الماك. الصف السفلي هو اللي بيتغير.</p>
+        </details>
+        <details>
+          <summary data-i18n="q5">«لا» طلعت b أو gh؟</summary>
+          <p data-i18n="a5">على عربي ١٠١ في مفتاح واحد بيكتب لا، وهو b. لام وبعدين ألف يبقى gh. فلتة تبدأ بالمفتاح الواحد، وتسيب زر البديل من غير نافذة توقفك.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+  <footer class="foot wrap">
+    <p data-i18n="foot">فلتة أداة مستقلة. MIT. الخطوط OFL جوا web/fonts.</p>
+    <p><a href="https://github.com/if12is/falta">GitHub</a> · <a href="web/index.html">web/index.html</a></p>
+  </footer>
+  <script src="web/brand.js"></script>
+  <script src="web/mascot.js"></script>
+</body>
+</html>

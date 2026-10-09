@@ -6,6 +6,7 @@
   "description": "فلتة — اقلب النص بين تخطيط العربي والإنجليزي على جهازك.",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "pack": "node scripts/pack.mjs",
     "test": "node --test tests/convert.test.js tests/contrast.test.js tests/manifest.test.js"
   },
   "engines": {
