@@ -27,7 +27,7 @@ body {
 }
 
 .bar { display: flex; gap: var(--space-3); align-items: center; margin-bottom: var(--space-3); }
-.bar strong { display: block; font-family: var(--font-display); font-size: 28px; font-weight: 400; line-height: 1; }
+.bar strong { display: block; font-family: var(--font-display); font-size: 28px; font-weight: 400; line-height: 1.5; }
 .bar p { margin: 0; color: var(--color-muted); }
 .mark { width: 32px; height: 32px; border-radius: 8px; }
 .mascot { width: 48px; height: auto; margin-inline-start: auto; }

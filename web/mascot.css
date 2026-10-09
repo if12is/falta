@@ -1,8 +1,6 @@
-/* Ceramic type-block. The face is the mascot; the sides are clay with a copper band. */
+/* Ceramic type-block. The canvas is only the character, on a clear background. */
 
 .mascot {
-  --depth: 22px;
-  --lean: 0.8;
   margin: 0;
   display: grid;
   justify-items: center;
@@ -11,113 +9,16 @@
 
 .mascot-stage {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: min(100%, 148px);
-  perspective: 760px;
-  padding-block: var(--space-2) var(--space-4);
+  width: min(100%, 220px);
+  aspect-ratio: 1;
 }
 
-.mascot-shadow {
-  position: absolute;
-  left: 22%;
-  right: 22%;
-  bottom: 8px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--color-neutral-900);
-  opacity: 0.18;
-}
-
-:root[data-theme="dark"] .mascot-shadow {
-  background: #000;
-  opacity: 0.55;
-}
-
-.mascot-shadow {
-  transform: translateX(calc(var(--lean) * -16px));
-  transition: transform var(--dur-hover) var(--ease-press);
-  pointer-events: none;
-}
-
-.mascot-block {
-  position: relative;
-  width: 96px;
-  transform-style: preserve-3d;
-  transform: rotateX(6deg) rotateY(26deg);
-  transition: transform var(--dur-hover) var(--ease-press);
-}
-
-.mascot-face {
-  position: relative;
-  z-index: 2;
+.mascot-canvas {
   display: block;
   width: 100%;
-  height: auto;
-  transform: translateZ(calc(var(--depth) / 2));
-  backface-visibility: hidden;
-}
-
-.mascot-back,
-.mascot-side {
-  position: absolute;
-  backface-visibility: hidden;
-}
-
-.mascot-back {
-  inset: 0;
-  background: #e4d5c4;
-  transform: rotateY(180deg) translateZ(calc(var(--depth) / 2));
-}
-
-.mascot-side-right,
-.mascot-side-left {
-  width: var(--depth);
   height: 100%;
-  top: 0;
-}
-
-.mascot-side-right {
-  left: calc(100% - (var(--depth) / 2));
-  background: #b89a80;
-  transform: rotateY(90deg);
-}
-
-.mascot-side-left {
-  left: calc(var(--depth) / -2);
-  background: #efe3d4;
-  transform: rotateY(90deg);
-}
-
-.mascot-side-top,
-.mascot-side-bottom {
-  left: 0;
-  width: 100%;
-  height: var(--depth);
-}
-
-.mascot-side-top {
-  top: calc(var(--depth) / -2);
-  background: #f3eadf;
-  transform: rotateX(90deg);
-}
-
-.mascot-side-bottom {
-  bottom: calc(var(--depth) / -2);
-  background: #c9b49e;
-  transform: rotateX(90deg);
-}
-
-.mascot-side-right::after,
-.mascot-side-left::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 57%;
-  height: 8%;
-  min-height: 4px;
-  background: #a86b45;
+  background: transparent;
+  pointer-events: none;
 }
 
 .mascot-hint {
@@ -132,23 +33,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-ink);
 }
 
 .tilt[hidden] { display: none; }
 
 @media (min-width: 1024px) {
-  .hero-figure .mascot { --depth: 46px; }
-  .hero-figure .mascot-stage { width: min(100%, 360px); }
-  .hero-figure .mascot-block { width: min(280px, 100%); }
+  .hero-figure .mascot-stage { width: min(100%, 340px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mascot-block,
-  .mascot-shadow {
-    transform: none !important;
-    transition: none;
-  }
-  .mascot-side,
-  .mascot-back { visibility: hidden; }
-  .mascot-face { transform: none; }
+  .mascot-canvas { pointer-events: none; }
 }

@@ -6,22 +6,10 @@ a.flip {
   margin-top: var(--space-5);
   text-align: center;
   text-decoration: none;
+  background: var(--color-button);
+  color: var(--color-button-ink);
 }
 
 @media (min-width: 768px) {
   a.flip { max-width: 320px; }
-}
-
-.identity .hero-figure .mascot-stage { width: min(100%, 220px); }
-.identity .hero-figure .mascot-block { width: min(168px, 64vw); }
-
-@media (min-width: 768px) {
-  .identity .hero-figure .mascot-stage { width: min(100%, 260px); }
-  .identity .hero-figure .mascot-block { width: 200px; }
-}
-
-@media (min-width: 1024px) {
-  .identity .hero-figure .mascot { --depth: 52px; }
-  .identity .hero-figure .mascot-stage { width: min(100%, 320px); }
-  .identity .hero-figure .mascot-block { width: 240px; }
 }

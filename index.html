@@ -45,15 +45,7 @@
       <figure class="hero-figure">
         <div class="mascot" data-mascot>
           <div class="mascot-stage">
-            <div class="mascot-shadow" aria-hidden="true"></div>
-            <div class="mascot-block">
-              <img class="mascot-face" src="brand/mascot.png" width="640" height="640" data-i18n-alt="mascot" alt="تميمة فلتة: قالب طباعة خزفي، حرف ع وحزام نحاس">
-              <span class="mascot-back" aria-hidden="true"></span>
-              <span class="mascot-side mascot-side-left" aria-hidden="true"></span>
-              <span class="mascot-side mascot-side-right" aria-hidden="true"></span>
-              <span class="mascot-side mascot-side-top" aria-hidden="true"></span>
-              <span class="mascot-side mascot-side-bottom" aria-hidden="true"></span>
-            </div>
+            <canvas class="mascot-canvas" role="img" data-i18n-alt="mascot" aria-label="تميمة فلتة: قالب طباعة خزفي، حرف ع وحزام نحاس"></canvas>
           </div>
           <p class="mascot-hint" data-i18n="mascot.hint">حرّك المؤشر، أو ميل الجهاز</p>
           <button class="ghost tilt" id="tilt-permit" type="button" hidden data-i18n="tilt">اسمح بميل الجهاز</button>
@@ -192,6 +184,6 @@
     <p><a href="https://github.com/if12is/falta">GitHub</a> · <a href="web/index.html">web/index.html</a></p>
   </footer>
   <script src="web/brand.js"></script>
-  <script src="web/mascot.js"></script>
+  <script type="module" src="web/mascot.js"></script>
 </body>
 </html>

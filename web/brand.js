@@ -135,7 +135,9 @@
       el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
     });
     document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
-      el.setAttribute("alt", t(el.getAttribute("data-i18n-alt")));
+      var name = t(el.getAttribute("data-i18n-alt"));
+      if (el.tagName === "IMG") el.setAttribute("alt", name);
+      else el.setAttribute("aria-label", name);
     });
     document.getElementById("lang").textContent = lang === "ar" ? "EN" : "عربي";
     document.title = lang === "ar" ? "فلتة — الحروف فلتت منك؟" : "Falta — the letters slipped?";
