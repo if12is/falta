@@ -1,0 +1,72 @@
+main.wrap { padding-bottom: var(--space-8); }
+
+.dl-lead {
+  max-width: 38rem;
+}
+
+:root[data-theme="dark"] #mac .get-mark path { fill: #f4efe6; }
+
+.dl-group {
+  margin: var(--space-7) 0 var(--space-4);
+  font: 400 var(--text-lg) / 1.4 "Aref Ruqaa Ink", serif;
+}
+
+.get {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.get-mark {
+  width: 56px;
+  height: 56px;
+}
+
+.get-mark svg {
+  width: 56px;
+  height: 56px;
+  display: block;
+}
+
+.get h3 {
+  margin: 0;
+  font: 600 var(--text-lg) / 1.3 "IBM Plex Sans Arabic", sans-serif;
+}
+
+.get .file {
+  margin: var(--space-1) 0 var(--space-3);
+  color: var(--color-neutral-600);
+  font-size: var(--text-sm);
+}
+
+.get ol {
+  margin: 0;
+  padding-inline-start: 1.2rem;
+}
+
+.get li + li { margin-top: var(--space-2); }
+
+a.get-dl {
+  min-height: var(--touch);
+  margin-top: 0;
+  padding-inline: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .get {
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: var(--space-5);
+  }
+
+  a.get-dl {
+    width: auto;
+    min-width: 160px;
+    margin-top: var(--space-1);
+  }
+}
+
+@media (max-width: 767px) {
+  a.get-dl { width: 100%; }
+}

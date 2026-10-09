@@ -8,7 +8,9 @@
 
 <img src="brand/mascot-128.png" width="112" height="112" alt="تميمة فلتة: قالب طباعة خزفي، حرف ع وحزام نحاس">
 
-الأداة ليك ولصحابك. التثبيت الجاهز من آخر ريليز، من غير ما تنسخ الريبو: <https://github.com/if12is/falta/releases/latest>
+الأداة ليك ولصحابك. صفحة التنزيل، بأيقونة كل متصفح ونظام وخطواته: <https://if12is.github.io/falta/download.html>
+
+ملفات آخر ريليز، من غير ما تنسخ الريبو: <https://github.com/if12is/falta/releases/latest>
 
 كل رفع على فرع `master` ينشر ريليز جديد ويرفع رقم الإصدار خانة: `v1.0.0` ثم `v1.0.1` وهكذا. الملفات الخمسة تتحدث مع بعض.
 
@@ -163,7 +165,9 @@ Conversion stays on the device. The extension has no network permission, and the
 
 <img src="brand/mascot-128.png" width="112" height="112" alt="Falta, a ceramic type block with an ain and a copper band">
 
-The tool is for you and your friends. The ready-made install is the latest release, with no need to clone: <https://github.com/if12is/falta/releases/latest>
+The tool is for you and your friends. The download page, with a colored icon and steps for each browser and system: <https://if12is.github.io/falta/download.html>
+
+The latest release files, with no need to clone: <https://github.com/if12is/falta/releases/latest>
 
 Every push to `master` publishes a new release and bumps the patch number: `v1.0.0`, then `v1.0.1`, and so on. The five files update together.
 
