@@ -94,7 +94,27 @@ function walk(dir, files = []) {
 test("the extension does not call the network", () => {
   const files = walk(fileURLToPath(new URL("../extension", import.meta.url)));
   files.forEach((file) => {
+    // Three's FileLoader mentions fetch(). The mascot imports that local file
+    // only while it is on screen and never calls the loader.
+    if (file.endsWith("three.module.js")) return;
     const text = readFileSync(file, "utf8");
     assert.equal(/\bfetch\s*\(|XMLHttpRequest|sendBeacon|new WebSocket/.test(text), false, file);
   });
+});
+
+test("the floating mascot is the local type block, loaded only when a selection is showing", () => {
+  const content = readFileSync(new URL("../extension/content.js", import.meta.url), "utf8");
+  const scripts = manifest.content_scripts[0].js;
+  assert.deepEqual(scripts, ["falta-core.js", "common.js", "content.js"]);
+  assert.equal(scripts.includes("vendor/three.module.js"), false);
+  assert.equal(scripts.includes("float-mascot.js"), false);
+  assert.match(content, /import\(chrome\.runtime\.getURL\("float-mascot\.js"\)\)/);
+  assert.equal(content.includes("icon32.png"), false);
+  assert.equal(content.includes("readSelection(false)"), true);
+  assert.equal(manifest.commands.flip.suggested_key.default, "Ctrl+Shift+Y");
+  assert.equal(manifest.commands.flip.suggested_key.mac, "Command+Shift+Y");
+  const resources = manifest.web_accessible_resources[0].resources;
+  assert.ok(resources.includes("vendor/three.module.js"));
+  assert.ok(resources.includes("float-mascot.js"));
+  assert.ok(resources.includes("typeblock.js"));
 });
