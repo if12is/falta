@@ -73,6 +73,15 @@ test("firefox package uses background.scripts and chromium keeps service_worker 
   assert.deepEqual(firefoxBackground, { scripts: ["background.js"] });
 });
 
+test("release version is written into both packed manifests", () => {
+  const packed = buildPackages("9.8.7");
+  const chromiumManifest = JSON.parse(readZipEntry(packed.chromium.body, "manifest.json"));
+  const firefoxManifestJson = JSON.parse(readZipEntry(packed.firefox.body, "manifest.json"));
+  assert.equal(chromiumManifest.version, "9.8.7");
+  assert.equal(firefoxManifestJson.version, "9.8.7");
+  assert.equal(manifest.version, "1.0.0");
+});
+
 function walk(dir, files = []) {
   for (const name of readdirSync(dir)) {
     const path = join(dir, name);

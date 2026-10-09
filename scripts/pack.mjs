@@ -31,7 +31,7 @@ function dosStamp(date) {
   return { time, day };
 }
 
-function zipDirectory(dir, overrides = new Map()) {
+export function zipDirectory(dir, overrides = new Map()) {
   const files = walk(dir).sort();
   const { time, day } = dosStamp(new Date());
   const localParts = [];
@@ -110,11 +110,13 @@ export function firefoxManifest(manifest) {
   return next;
 }
 
-export function buildPackages() {
+export function buildPackages(version = process.env.FALTA_VERSION) {
   const source = JSON.parse(readFileSync(join(root, "manifest.json"), "utf8"));
+  if (typeof version === "string" && /^\d+\.\d+\.\d+$/.test(version)) source.version = version;
+  const chromiumJson = Buffer.from(`${JSON.stringify(source, null, 2)}\n`, "utf8");
   const firefoxJson = Buffer.from(`${JSON.stringify(firefoxManifest(source), null, 2)}\n`, "utf8");
   return {
-    chromium: zipDirectory(root),
+    chromium: zipDirectory(root, new Map([["manifest.json", chromiumJson]])),
     firefox: zipDirectory(root, new Map([["manifest.json", firefoxJson]])),
   };
 }

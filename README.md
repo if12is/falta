@@ -8,15 +8,35 @@
 
 <img src="brand/mascot-128.png" width="112" height="112" alt="تميمة فلتة: قالب طباعة خزفي، حرف ع وحزام نحاس">
 
-الأداة ليك ولصحابك. لسه مش على متاجر المتصفحات. أي حد يقدر يثبّتها من الريبو، أو يفتح الصفحة من غير إضافة.
+الأداة ليك ولصحابك. التثبيت الجاهز من آخر ريليز، من غير ما تنسخ الريبو: <https://github.com/if12is/falta/releases/latest>
+
+كل رفع على فرع `master` ينشر ريليز جديد ويرفع رقم الإصدار خانة: `v1.0.0` ثم `v1.0.1` وهكذا. الملفات الخمسة تتحدث مع بعض.
 
 الهوية: [`index.html`](index.html) — وعلى جيت هب بيجز: <https://if12is.github.io/falta/>
 
 الأداة من غير تثبيت: [`web/index.html`](web/index.html)
 
+## التنزيل
+
+من <https://github.com/if12is/falta/releases/latest> اختار ملف واحد.
+
+| الملف | تنزّله امتى | تثبّته إزاي |
+| --- | --- | --- |
+| `falta-chromium.zip` | كروم، إيدج، بريف، أوبرا، أو فيفالدي، على ويندوز أو أوبونتو أو ماك | فك الضغط. افتح صفحة الإضافات، فعّل وضع المطوّر، واختار المجلد اللي طلع (جواه `manifest.json`). تفضل بعد إعادة التشغيل. |
+| `falta-firefox.zip` | فايرفوكس | للتقديم على حساب المطوّر: ارفع الملف نفسه من غير فك ضغط. على جهازك دلوقتي: فك الضغط، ومن `about:debugging` اختار Load Temporary Add-on ثم `manifest.json`. النسخة المؤقتة بتتشال لما فايرفوكس يقفل. |
+| `falta-windows.zip` | ويندوز، لو عايز الصفحة تفتح مع تشغيل الجهاز ومعاها مجلد الإضافة | فك الضغط في مجلد ثابت. الإضافة من مجلد `extension` اللي جواه. ثم من جذر المجلد: `powershell -ExecutionPolicy Bypass -File scripts\startup\install-windows.ps1` |
+| `falta-ubuntu.zip` | أوبونتو أو أي لينكس | فك الضغط في مجلد ثابت. الإضافة من مجلد `extension`. ثم: `sh scripts/startup/install-linux.sh` |
+| `falta-macos.zip` | ماك | فك الضغط في مجلد ثابت. الإضافة من مجلد `extension`. ثم: `sh scripts/startup/install-macos.sh` |
+
+سفاري مش بيحمّل المجلد. بعد فك ضغط حزمة نظامك افتح `web/index.html`، أو افتح <https://if12is.github.io/falta/>.
+
+جوه حزم ويندوز وأوبونتو والماك ملف `INSTALL.txt` بنفس الخطوات. أوامر الإزالة مكتوبة هناك وفي قسم التشغيل تحت.
+
 ## التثبيت
 
 ### على جهازك، وعلى جهاز أي حد
+
+لو نزّلت ريليز، ابدأ من جدول التنزيل فوق. الطريق ده بتاع اللي بيبني من المصدر:
 
 1. نزّل الريبو أو اعمل clone من <https://github.com/if12is/falta>.
 2. افتح صفحة الإضافات.
@@ -143,15 +163,35 @@ Conversion stays on the device. The extension has no network permission, and the
 
 <img src="brand/mascot-128.png" width="112" height="112" alt="Falta, a ceramic type block with an ain and a copper band">
 
-The tool is for you and your friends. It is not listed in a browser store. Anyone can install it from this repo, or open the page with no add-on.
+The tool is for you and your friends. The ready-made install is the latest release, with no need to clone: <https://github.com/if12is/falta/releases/latest>
+
+Every push to `master` publishes a new release and bumps the patch number: `v1.0.0`, then `v1.0.1`, and so on. The five files update together.
 
 Identity page: [`index.html`](index.html) — and on GitHub Pages: <https://if12is.github.io/falta/>
 
 The tool, with nothing to install: [`web/index.html`](web/index.html)
 
+## Download
+
+From <https://github.com/if12is/falta/releases/latest>, pick one file.
+
+| File | When to download it | How to install |
+| --- | --- | --- |
+| `falta-chromium.zip` | Chrome, Edge, Brave, Opera, or Vivaldi, on Windows, Ubuntu, or Mac | Unzip. Open the extensions page, turn on developer mode, and choose the unzipped folder (the one that contains `manifest.json`). It stays after a restart. |
+| `falta-firefox.zip` | Firefox | To submit on a developer account: upload the zip itself, still zipped. On your machine right now: unzip, then from `about:debugging` choose Load Temporary Add-on and `manifest.json`. A temporary add-on disappears when Firefox closes. |
+| `falta-windows.zip` | Windows, when you also want the page to open at startup | Unzip into a folder you will keep. Load the `extension` folder inside it. Then, from that unzipped folder: `powershell -ExecutionPolicy Bypass -File scripts\startup\install-windows.ps1` |
+| `falta-ubuntu.zip` | Ubuntu or any Linux | Unzip into a folder you will keep. Load the `extension` folder. Then: `sh scripts/startup/install-linux.sh` |
+| `falta-macos.zip` | Mac | Unzip into a folder you will keep. Load the `extension` folder. Then: `sh scripts/startup/install-macos.sh` |
+
+Safari cannot load the folder. After unzipping your system package, open `web/index.html`, or open <https://if12is.github.io/falta/>.
+
+The Windows, Ubuntu, and Mac packages include `INSTALL.txt` with the same steps. Remove commands are in that file and in the login section below.
+
 ## Install
 
 ### On your machines, and on anyone’s
+
+If you downloaded a release, start from the table above. This path is for building from source:
 
 1. Download the repo or clone <https://github.com/if12is/falta>.
 2. Open the browser’s extensions page.

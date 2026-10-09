@@ -1,0 +1,103 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+concurrency:
+  group: falta-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test
+        run: npm test
+
+      - name: Next version
+        id: ver
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git tag --points-at HEAD | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "This commit is already tagged."
+            exit 0
+          fi
+          last=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n 1 || true)
+          if [ -z "${last}" ]; then
+            version=1.0.0
+          else
+            patch=$(echo "${last#v}" | awk -F. '{print $1"."$2"."$3+1}')
+            version="$patch"
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Pack
+        if: steps.ver.outputs.skip != 'true'
+        env:
+          FALTA_VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          npm run pack
+          node scripts/bundles.mjs
+
+      - name: Publish GitHub release
+        if: steps.ver.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.ver.outputs.version }}
+          TAG: ${{ steps.ver.outputs.tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > release-notes.md << EOF
+          ## فلتة ${TAG}
+
+          نزّل ملف واحد حسب اللي محتاجه. التفاصيل في الريدمي: https://github.com/if12is/falta#التنزيل
+
+          | الملف | له |
+          | --- | --- |
+          | \`falta-chromium.zip\` | كروم، إيدج، بريف، أوبرا، فيفالدي. فك الضغط وحمّل المجلد. |
+          | \`falta-firefox.zip\` | ارفعه كما هو لفايرفوكس (إضافة مطوّر)، أو فكّه وثبّته مؤقتًا. |
+          | \`falta-windows.zip\` | ويندوز: الإضافة والصفحة والتشغيل مع إقلاع الجهاز. |
+          | \`falta-ubuntu.zip\` | أوبونتو ولينكس. |
+          | \`falta-macos.zip\` | ماك. |
+
+          ## Falta ${TAG}
+
+          Download one file. Steps: https://github.com/if12is/falta#download
+
+          | File | For |
+          | --- | --- |
+          | \`falta-chromium.zip\` | Chrome, Edge, Brave, Opera, Vivaldi. Unzip and load that folder. |
+          | \`falta-firefox.zip\` | Upload as-is to Firefox Add-ons, or unzip for a temporary install. |
+          | \`falta-windows.zip\` | Windows: the extension, the page, and login startup. |
+          | \`falta-ubuntu.zip\` | Ubuntu and Linux. |
+          | \`falta-macos.zip\` | Mac. |
+          EOF
+          gh release create "$TAG" \
+            dist/falta-chromium.zip \
+            dist/falta-firefox.zip \
+            dist/falta-windows.zip \
+            dist/falta-ubuntu.zip \
+            dist/falta-macos.zip \
+            --target "$GITHUB_SHA" \
+            --title "فلتة ${TAG}" \
+            --notes-file release-notes.md
