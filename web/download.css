@@ -4,7 +4,6 @@ main.wrap { padding-bottom: var(--space-8); }
   max-width: 38rem;
 }
 
-:root[data-theme="dark"] #mac .get-mark path { fill: #f4efe6; }
 
 .dl-group {
   margin: var(--space-7) 0 var(--space-4);
@@ -23,10 +22,15 @@ main.wrap { padding-bottom: var(--space-8); }
   height: 56px;
 }
 
-.get-mark svg {
+.get-mark img {
   width: 56px;
   height: 56px;
   display: block;
+  object-fit: contain;
+}
+
+:root[data-theme="dark"] #mac .get-mark img {
+  filter: invert(1);
 }
 
 .get h3 {

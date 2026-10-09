@@ -1,0 +1,8 @@
+Browser marks (chrome, edge, brave, opera, vivaldi, firefox, safari) are from
+https://github.com/alrra/browser-logos under the MIT license.
+
+Windows, Ubuntu, and Apple marks are from
+https://github.com/devicons/devicon under the MIT license.
+
+The names and logos belong to their owners. They are shown here only to say
+which app or system the download is for.
