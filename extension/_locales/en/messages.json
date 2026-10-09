@@ -1,0 +1,5 @@
+{
+  "extName": { "message": "Falta | فلتة" },
+  "extDesc": { "message": "Flips text between Arabic and English keyboard layouts when you typed in the wrong one. On your machine only." },
+  "cmdFlip": { "message": "Flip the selected text" }
+}

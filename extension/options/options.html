@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>إعدادات فلتة</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="options.css">
+  <script src="../falta-core.js"></script>
+  <script src="../common.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <img src="../icons/mascot.png" alt="" width="72">
+      <div>
+        <p class="eyebrow" id="kicker">فلتة</p>
+        <h1 id="heading">الإعدادات</h1>
+      </div>
+    </header>
+
+    <fieldset>
+      <legend id="layout-label">لوحة المفاتيح</legend>
+      <label><input type="radio" name="layout" value="windows"> <span id="win">عربي ١٠١</span></label>
+      <label><input type="radio" name="layout" value="mac"> <span id="mac">عربي الماك</span></label>
+      <p class="hint" id="layout-hint"></p>
+    </fieldset>
+
+    <fieldset>
+      <legend id="lam-label">حرف لا</legend>
+      <label><input type="radio" name="lam" value="single"> <span id="lam-single">مفتاح واحد (b)</span></label>
+      <label><input type="radio" name="lam" value="split"> <span id="lam-split">مفتاحين (gh)</span></label>
+    </fieldset>
+
+    <label class="check"><input type="checkbox" id="floating"> <span id="float-label">الزر العائم جنب التحديد</span></label>
+
+    <fieldset>
+      <legend id="theme-label">السمة</legend>
+      <label><input type="radio" name="theme" value="system"> <span id="theme-system">زي الجهاز</span></label>
+      <label><input type="radio" name="theme" value="light"> <span id="theme-light">فاتح</span></label>
+      <label><input type="radio" name="theme" value="dark"> <span id="theme-dark">غامق</span></label>
+    </fieldset>
+
+    <fieldset>
+      <legend id="lang-label">اللغة</legend>
+      <label><input type="radio" name="lang" value="ar"> عربي</label>
+      <label><input type="radio" name="lang" value="en"> English</label>
+    </fieldset>
+
+    <fieldset>
+      <legend id="short-label">الاختصار جوا الصفحات</legend>
+      <button id="capture" type="button">Ctrl+Shift+X</button>
+      <p class="hint" id="short-hint"></p>
+    </fieldset>
+
+    <fieldset>
+      <legend id="sample-label">تجربة</legend>
+      <input id="sample" dir="auto" value=";dt phg;">
+      <p id="sample-out" dir="auto" aria-live="polite"></p>
+    </fieldset>
+
+    <p id="stats"></p>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

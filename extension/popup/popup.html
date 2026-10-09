@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>فلتة</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="popup.css">
+  <script src="../falta-core.js"></script>
+  <script src="../common.js"></script>
+</head>
+<body>
+  <header class="bar">
+    <img class="mark" src="../icons/icon32.png" alt="">
+    <div>
+      <strong id="title">فلتة</strong>
+      <p id="lede">الحروف فلتت؟</p>
+    </div>
+    <img class="mascot" src="../icons/mascot.png" alt="">
+  </header>
+  <label id="label" for="source">النص</label>
+  <textarea id="source" dir="auto"></textarea>
+  <div class="out" id="result" dir="auto" aria-live="polite"></div>
+  <button class="flip" id="flip" type="button">اقلب النص</button>
+  <div class="row">
+    <button class="copy" id="copy" type="button">انسخ</button>
+    <select id="layout" class="select"></select>
+  </div>
+  <button class="alt" id="alt" type="button" hidden></button>
+  <button class="texty" id="page" type="button"></button>
+  <p class="status" id="status" role="status"></p>
+  <footer>
+    <span id="stats"></span>
+    <a id="options" href="#"></a>
+  </footer>
+  <script src="popup.js"></script>
+</body>
+</html>
