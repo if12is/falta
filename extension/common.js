@@ -6,7 +6,7 @@
     theme: "system",
     lang: "ar",
     shortcutCustom: false,
-    shortcut: { key: "x", ctrl: true, shift: true, alt: false, meta: false },
+    shortcut: { key: "y", ctrl: true, shift: true, alt: false, meta: false },
     stats: { flips: 0, lastAt: 0 }
   };
 

@@ -253,7 +253,7 @@
       var s = settings.shortcut;
       return key === s.key && event.ctrlKey === !!s.ctrl && event.shiftKey === !!s.shift && event.altKey === !!s.alt && event.metaKey === !!s.meta;
     }
-    return key === "x" && event.shiftKey && (event.ctrlKey || event.metaKey) && !event.altKey;
+    return key === "y" && event.shiftKey && (event.ctrlKey || event.metaKey) && !event.altKey;
   }
 
   function boot() {
@@ -276,6 +276,7 @@
     document.addEventListener("keydown", function (event) {
       if (!matchesShortcut(event)) return;
       event.preventDefault();
+      event.stopPropagation();
       flipSelection(null);
     }, true);
     chrome.runtime.onMessage.addListener(function (msg, _sender, sendResponse) {

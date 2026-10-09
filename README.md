@@ -61,8 +61,10 @@
 
 الخطوات واحدة على ويندوز ولينكس والماك. الفرق في الاختصار واللوحة.
 
-- ويندوز ولينكس: `Ctrl+Shift+X`
-- الماك: `Command+Shift+X`
+- ويندوز ولينكس: `Ctrl+Shift+Y`
+- الماك: `Command+Shift+Y`
+
+`Ctrl+Shift+X` سيبه لفايرفوكس: هو بيقلب اتجاه السطر بس، مش الحروف.
 - اللوحة الافتراضية: **عربي ١٠١** (ويندوز، لينكس، وماك Arabic-PC).
 - **عربي الماك** الأصلي إعداد ظاهر، لأن الصف السفلي مختلف: `z` عندهم ظ مش ئ.
 
@@ -218,8 +220,10 @@ The same folder on Windows, Linux, and Mac.
 
 The steps are the same on Windows, Linux, and Mac. The shortcut and the layout choice are what change.
 
-- Windows and Linux: `Ctrl+Shift+X`
-- Mac: `Command+Shift+X`
+- Windows and Linux: `Ctrl+Shift+Y`
+- Mac: `Command+Shift+Y`
+
+Leave `Ctrl+Shift+X` to Firefox. That shortcut only swaps the line direction, not the letters.
 - Default layout: **Arabic 101** (Windows, Linux, and Mac Arabic-PC).
 - **Mac Arabic**, the native layout, is a setting, because the bottom row differs: their `z` is ظ, not ئ.
 

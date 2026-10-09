@@ -55,7 +55,7 @@
       "ubuntu.4": "sh scripts/startup/install-linux.sh",
       "mac.1": "نزّل الملف وفك الضغط في مجلد ما تحذفوش.",
       "mac.2": "للإضافة: حمّل مجلد extension من المتصفح.",
-      "mac.3": "الاختصار Command+Shift+X. عشان تفتح مع تسجيل الدخول:",
+      "mac.3": "الاختصار Command+Shift+Y. عشان تفتح مع تسجيل الدخول:",
       "mac.4": "sh scripts/startup/install-macos.sh"
     },
     en: {
@@ -113,7 +113,7 @@
       "ubuntu.4": "sh scripts/startup/install-linux.sh",
       "mac.1": "Download the file and unzip it into a folder you will keep.",
       "mac.2": "For the extension: load the extension folder from the browser.",
-      "mac.3": "The shortcut is Command+Shift+X. To open at login:",
+      "mac.3": "The shortcut is Command+Shift+Y. To open at login:",
       "mac.4": "sh scripts/startup/install-macos.sh"
     }
   };

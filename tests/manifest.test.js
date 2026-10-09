@@ -36,8 +36,8 @@ test("manifest is a local MV3 add-on for Chromium and Firefox", () => {
   assert.deepEqual(manifest.browser_specific_settings.gecko.data_collection_permissions, {
     required: ["none"],
   });
-  assert.equal(manifest.commands.flip.suggested_key.default, "Ctrl+Shift+X");
-  assert.equal(manifest.commands.flip.suggested_key.mac, "Command+Shift+X");
+  assert.equal(manifest.commands.flip.suggested_key.default, "Ctrl+Shift+Y");
+  assert.equal(manifest.commands.flip.suggested_key.mac, "Command+Shift+Y");
   assert.equal(manifest.host_permissions, undefined);
   assert.ok(!JSON.stringify(manifest.permissions).includes("http"));
 });
@@ -79,7 +79,7 @@ test("release version is written into both packed manifests", () => {
   const firefoxManifestJson = JSON.parse(readZipEntry(packed.firefox.body, "manifest.json"));
   assert.equal(chromiumManifest.version, "9.8.7");
   assert.equal(firefoxManifestJson.version, "9.8.7");
-  assert.equal(manifest.version, "1.0.0");
+  assert.equal(manifest.version, "1.1.0");
 });
 
 function walk(dir, files = []) {
