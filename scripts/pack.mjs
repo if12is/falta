@@ -63,9 +63,10 @@ export function zipDirectory(dir, overrides = new Map()) {
     const record = Buffer.concat([local, nameBuf, payload]);
     localParts.push(record);
 
+    const executable = /\.(sh|command)$/.test(name);
     const central = Buffer.alloc(46);
     central.writeUInt32LE(0x02014b50, 0);
-    central.writeUInt16LE(20, 4);
+    central.writeUInt16LE(executable ? 0x0314 : 20, 4);
     central.writeUInt16LE(20, 6);
     central.writeUInt16LE(0x0800, 8);
     central.writeUInt16LE(method, 10);
@@ -79,7 +80,7 @@ export function zipDirectory(dir, overrides = new Map()) {
     central.writeUInt16LE(0, 32);
     central.writeUInt16LE(0, 34);
     central.writeUInt16LE(0, 36);
-    central.writeUInt32LE(0, 38);
+    central.writeUInt32LE(executable ? 0o100755 * 65536 : 0, 38);
     central.writeUInt32LE(offset, 42);
     centralParts.push(Buffer.concat([central, nameBuf]));
     offset += record.length;

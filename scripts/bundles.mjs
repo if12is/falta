@@ -8,54 +8,89 @@ const version = process.env.FALTA_VERSION || "1.0.0";
 const bundles = [
   {
     name: "falta-windows",
-    scripts: ["install-windows.ps1", "uninstall-windows.ps1"],
-    install: "powershell -ExecutionPolicy Bypass -File scripts\\startup\\install-windows.ps1",
-    uninstall: "powershell -ExecutionPolicy Bypass -File scripts\\startup\\uninstall-windows.ps1",
+    scripts: [
+      "install-windows.ps1",
+      "install-windows.cmd",
+      "uninstall-windows.ps1",
+      "uninstall-windows.cmd",
+      "falta-hotkey.ps1",
+      "flip.mjs",
+    ],
     system: "ويندوز",
     systemEn: "Windows",
+    stepsAr: `1. فك الضغط في مجلد هتسيبه، مثلاً على سطح المكتب Desktop\\Falta. ما تحذفش المجلد ده، لأن البرنامج بيشتغل منه.
+2. اضغط مرتين على scripts\\startup\\install-windows.cmd
+3. لو ظهر إن Node مش موجود، نزّله 18 أو أحدث من https://nodejs.org وبعدين شغّل نفس الملف تاني.
+4. علّم أي نص في أي برنامج واضغط Ctrl+Shift+Y. فلتة هتشتغل مع تشغيل ويندوز.
+للإزالة: اضغط مرتين على scripts\\startup\\uninstall-windows.cmd`,
+    stepsEn: `1. Unzip into a folder you will keep, for example Desktop\\Falta. Do not delete that folder. The program runs from it.
+2. Double-click scripts\\startup\\install-windows.cmd
+3. If it says Node is missing, install Node 18 or newer from https://nodejs.org and run the same file again.
+4. Select text in any program and press Ctrl+Shift+Y. Falta starts with Windows.
+To remove it, double-click scripts\\startup\\uninstall-windows.cmd`,
   },
   {
     name: "falta-ubuntu",
-    scripts: ["install-linux.sh", "uninstall-linux.sh"],
-    install: "sh scripts/startup/install-linux.sh",
-    uninstall: "sh scripts/startup/uninstall-linux.sh",
-    system: "أوبونتو ولينكس",
-    systemEn: "Ubuntu and Linux",
+    scripts: [
+      "install-linux.sh",
+      "uninstall-linux.sh",
+      "falta-hotkey.py",
+      "flip.mjs",
+    ],
+    system: "أوبونتو",
+    systemEn: "Ubuntu",
+    stepsAr: `1. فك الضغط في مجلد هتسيبه. ما تحذفوش، لأن البرنامج بيشتغل منه.
+2. من جوه المجلد شغّل: sh scripts/startup/install-linux.sh
+3. لو ظهر إن Node مش موجود، نزّله 18 أو أحدث من https://nodejs.org وبعدين شغّل نفس الأمر تاني.
+4. علّم أي نص في أي برنامج واضغط Ctrl+Shift+Y. فلتة هتشتغل لما تسجّل دخول.
+للإزالة: sh scripts/startup/uninstall-linux.sh`,
+    stepsEn: `1. Unzip into a folder you will keep. Do not delete it. The program runs from it.
+2. From inside that folder, run: sh scripts/startup/install-linux.sh
+3. If it says Node is missing, install Node 18 or newer from https://nodejs.org and run the same command again.
+4. Select text in any program and press Ctrl+Shift+Y. Falta starts when you log in.
+To remove it: sh scripts/startup/uninstall-linux.sh`,
   },
   {
     name: "falta-macos",
-    scripts: ["install-macos.sh", "uninstall-macos.sh"],
-    install: "sh scripts/startup/install-macos.sh",
-    uninstall: "sh scripts/startup/uninstall-macos.sh",
+    scripts: [
+      "install-macos.sh",
+      "install-macos.command",
+      "uninstall-macos.sh",
+      "uninstall-macos.command",
+      "falta-hotkey.swift",
+      "flip.mjs",
+    ],
     system: "ماك",
     systemEn: "Mac",
+    stepsAr: `1. فك الضغط في مجلد هتسيبه. ما تحذفوش وما تنقلوش، لأن البرنامج بيشتغل منه.
+2. اضغط مرتين على scripts/startup/install-macos.command
+3. لو ظهر إن Node مش موجود، نزّله 18 أو أحدث من https://nodejs.org وبعدين شغّل نفس الملف تاني.
+4. أول مرة اسمح لـ FaltaHotkey من System Settings ثم Privacy & Security ثم Accessibility.
+5. علّم أي نص في أي برنامج واضغط Command+Shift+Y. فلتة هتشتغل لما تسجّل دخول.
+للإزالة: اضغط مرتين على scripts/startup/uninstall-macos.command`,
+    stepsEn: `1. Unzip into a folder you will keep. Do not delete it or move it. The program runs from it.
+2. Double-click scripts/startup/install-macos.command
+3. If it says Node is missing, install Node 18 or newer from https://nodejs.org and run the same file again.
+4. The first time, allow FaltaHotkey in System Settings, Privacy & Security, Accessibility.
+5. Select text in any program and press Command+Shift+Y. Falta starts when you log in.
+To remove it, double-click scripts/startup/uninstall-macos.command`,
   },
 ];
 
 function installText(bundle) {
   return `فلتة ${version} — ${bundle.system}
 
-1. فك الضغط في مجلد ثابت. ما تحذفوش، لأن التشغيل مع الجهاز بيفتح الصفحة من المكان ده.
-2. الإضافة، على كروم وإيدج وبريف وأوبرا وفيفالدي: افتح صفحة الإضافات، فعّل وضع المطوّر، واختار مجلد extension اللي جوه هنا.
-3. فايرفوكس: about:debugging ثم Load Temporary Add-on واختار extension/manifest.json. الإضافة المؤقتة بتتشال لما المتصفح يقفل. التثبيت الدايم من ملف falta-firefox.zip على صفحة ريليز جيت هب، بعد توقيع موزيلا.
-4. سفاري: افتح web/index.html.
-5. عشان تفتح مع تسجيل الدخول، من جذر المجلد ده:
-   ${bundle.install}
-   للإزالة:
-   ${bundle.uninstall}
+برنامج على الجهاز، مش إضافة المتصفح. بيقلب النص المتعلم في أي برنامج.
+
+${bundle.stepsAr}
 
 ---
 
 Falta ${version} — ${bundle.systemEn}
 
-1. Unzip into a folder you will keep. Login startup opens the page from that place.
-2. Chrome, Edge, Brave, Opera, and Vivaldi: open the extensions page, turn on developer mode, and choose the extension folder inside this unzipped folder.
-3. Firefox: about:debugging, then Load Temporary Add-on, and choose extension/manifest.json. A temporary add-on disappears when Firefox closes. A signed copy comes from falta-firefox.zip on the GitHub release, after Mozilla signs it.
-4. Safari: open web/index.html.
-5. To open at login, from this folder:
-   ${bundle.install}
-   To remove:
-   ${bundle.uninstall}
+A program on the computer, not the browser extension. It flips selected text in any app.
+
+${bundle.stepsEn}
 `;
 }
 

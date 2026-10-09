@@ -76,9 +76,9 @@ jobs:
           | --- | --- |
           | \`falta-chromium.zip\` | كروم، إيدج، بريف، أوبرا، فيفالدي. فك الضغط وحمّل المجلد. |
           | \`falta-firefox.zip\` | ارفعه كما هو لفايرفوكس (إضافة مطوّر)، أو فكّه وثبّته مؤقتًا. |
-          | \`falta-windows.zip\` | ويندوز: الإضافة والصفحة والتشغيل مع إقلاع الجهاز. |
-          | \`falta-ubuntu.zip\` | أوبونتو ولينكس. |
-          | \`falta-macos.zip\` | ماك. |
+          | \`falta-windows.zip\` | ويندوز: برنامج على الجهاز، Ctrl+Shift+Y في أي برنامج، ويشتغل مع تشغيل الويندوز. |
+          | \`falta-ubuntu.zip\` | أوبونتو: برنامج على الجهاز، Ctrl+Shift+Y، ويشتغل مع تسجيل الدخول. |
+          | \`falta-macos.zip\` | ماك: برنامج على الجهاز، Command+Shift+Y، ويشتغل مع تسجيل الدخول. |
 
           ## Falta ${TAG}
 
@@ -88,9 +88,9 @@ jobs:
           | --- | --- |
           | \`falta-chromium.zip\` | Chrome, Edge, Brave, Opera, Vivaldi. Unzip and load that folder. |
           | \`falta-firefox.zip\` | Upload as-is to Firefox Add-ons, or unzip for a temporary install. |
-          | \`falta-windows.zip\` | Windows: the extension, the page, and login startup. |
-          | \`falta-ubuntu.zip\` | Ubuntu and Linux. |
-          | \`falta-macos.zip\` | Mac. |
+          | \`falta-windows.zip\` | Windows: a program on the computer, Ctrl+Shift+Y in any app, starts with Windows. |
+          | \`falta-ubuntu.zip\` | Ubuntu: a program on the computer, Ctrl+Shift+Y, starts at login. |
+          | \`falta-macos.zip\` | Mac: a program on the computer, Command+Shift+Y, starts at login. |
           EOF
           gh release create "$TAG" \
             dist/falta-chromium.zip \

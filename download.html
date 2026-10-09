@@ -25,7 +25,7 @@
       <a href="web/index.html#tool" data-i18n="nav.tool">الأداة</a>
       <a href="index.html" data-i18n="nav.home">الهوية</a>
       <a href="#browsers" data-i18n="browsers">المتصفحات</a>
-      <a href="#systems" data-i18n="systems">الجهاز</a>
+      <a href="#systems" data-i18n="systems">البرنامج على الجهاز</a>
     </nav>
     <div class="mast-actions">
       <button class="ghost" id="lang" type="button">EN</button>
@@ -35,7 +35,7 @@
 
   <main class="wrap" id="top">
     <h1 data-i18n="title">نزّل فلتة</h1>
-    <p class="dl-lead" data-i18n="lead">اختار المتصفح أو النظام. الرابط دايمًا آخر نسخة، وكل رفع جديد على جيت هب يحدّث الملف نفسه.</p>
+    <p class="dl-lead" data-i18n="lead">قسم المتصفحات إضافة جوه المتصفح بس. قسم الجهاز برنامج يشتغل في أي برنامج مفتوح. الرابط دايمًا آخر نسخة.</p>
 
     <h2 class="dl-group" id="browsers" data-i18n="browsers">المتصفحات</h2>
 
@@ -143,7 +143,7 @@
       <a class="flip get-dl" href="web/index.html#tool" data-i18n="open">افتح الأداة</a>
     </article>
 
-    <h2 class="dl-group" id="systems" data-i18n="systems">الجهاز</h2>
+    <h2 class="dl-group" id="systems" data-i18n="systems">البرنامج على الجهاز</h2>
 
     <article class="get" id="windows">
       <div class="get-mark"><img src="web/logos/windows.svg" width="56" height="56" alt=""></div>
@@ -151,10 +151,13 @@
         <h3>Windows</h3>
         <p class="file" dir="ltr" data-i18n="file.win">الملف: falta-windows.zip</p>
         <ol>
-          <li data-i18n="win.1">نزّل الملف وفك الضغط في مجلد ما تحذفوش.</li>
-          <li data-i18n="win.2">للإضافة: من كروم أو إيدج حمّل مجلد extension اللي جوه.</li>
-          <li data-i18n="win.3">عشان تفتح مع تشغيل الجهاز، من جذر المجلد:</li>
-          <li dir="ltr" data-i18n="win.4">powershell -ExecutionPolicy Bypass -File scripts\startup\install-windows.ps1</li>
+          <li data-i18n="win.1">نزّل ملف falta-windows.zip.</li>
+          <li data-i18n="win.2">فك الضغط في مجلد هتسيبه، مثلاً على سطح المكتب Desktop\Falta. ما تحذفش المجلد ده.</li>
+          <li>
+            <span data-i18n="win.3">اضغط مرتين على ملف التثبيت:</span>
+            <code class="cmd" dir="ltr" data-i18n="win.cmd">scripts\startup\install-windows.cmd</code>
+          </li>
+          <li data-i18n="win.4">علّم أي نص في أي برنامج واضغط Ctrl+Shift+Y. فلتة هتشتغل مع تشغيل ويندوز.</li>
         </ol>
       </div>
       <a class="flip get-dl" href="https://github.com/if12is/falta/releases/latest/download/falta-windows.zip" data-i18n="dl">نزّل</a>
@@ -166,10 +169,13 @@
         <h3>Ubuntu</h3>
         <p class="file" dir="ltr" data-i18n="file.ubuntu">الملف: falta-ubuntu.zip</p>
         <ol>
-          <li data-i18n="ubuntu.1">نزّل الملف وفك الضغط في مجلد ما تحذفوش.</li>
-          <li data-i18n="ubuntu.2">للإضافة: حمّل مجلد extension من المتصفح.</li>
-          <li data-i18n="ubuntu.3">عشان تفتح مع تسجيل الدخول:</li>
-          <li dir="ltr" data-i18n="ubuntu.4">sh scripts/startup/install-linux.sh</li>
+          <li data-i18n="ubuntu.1">نزّل ملف falta-ubuntu.zip.</li>
+          <li data-i18n="ubuntu.2">فك الضغط في مجلد هتسيبه، مثلاً على سطح المكتب Desktop/Falta. ما تحذفش المجلد ده.</li>
+          <li>
+            <span data-i18n="ubuntu.3">من جوه المجلد، شغّل الأمر ده:</span>
+            <code class="cmd" dir="ltr" data-i18n="ubuntu.cmd">sh scripts/startup/install-linux.sh</code>
+          </li>
+          <li data-i18n="ubuntu.4">علّم أي نص في أي برنامج واضغط Ctrl+Shift+Y. فلتة هتشتغل لما تسجّل دخول.</li>
         </ol>
       </div>
       <a class="flip get-dl" href="https://github.com/if12is/falta/releases/latest/download/falta-ubuntu.zip" data-i18n="dl">نزّل</a>
@@ -181,10 +187,13 @@
         <h3>Mac</h3>
         <p class="file" dir="ltr" data-i18n="file.mac">الملف: falta-macos.zip</p>
         <ol>
-          <li data-i18n="mac.1">نزّل الملف وفك الضغط في مجلد ما تحذفوش.</li>
-          <li data-i18n="mac.2">للإضافة: حمّل مجلد extension من المتصفح.</li>
-          <li data-i18n="mac.3">الاختصار Command+Shift+Y. عشان تفتح مع تسجيل الدخول:</li>
-          <li dir="ltr" data-i18n="mac.4">sh scripts/startup/install-macos.sh</li>
+          <li data-i18n="mac.1">نزّل ملف falta-macos.zip.</li>
+          <li data-i18n="mac.2">فك الضغط في مجلد هتسيبه. ما تحذفوش وما تنقلوش.</li>
+          <li>
+            <span data-i18n="mac.3">اضغط مرتين على ملف التثبيت:</span>
+            <code class="cmd" dir="ltr" data-i18n="mac.cmd">scripts/startup/install-macos.command</code>
+          </li>
+          <li data-i18n="mac.4">علّم أي نص في أي برنامج واضغط Command+Shift+Y. فلتة هتشتغل لما تسجّل دخول.</li>
         </ol>
       </div>
       <a class="flip get-dl" href="https://github.com/if12is/falta/releases/latest/download/falta-macos.zip" data-i18n="dl">نزّل</a>

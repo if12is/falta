@@ -51,6 +51,17 @@ main.wrap { padding-bottom: var(--space-8); }
 
 .get li + li { margin-top: var(--space-2); }
 
+.get li code.cmd {
+  display: block;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+  margin-top: 0.35rem;
+  font-family: Consolas, "Courier New", ui-monospace, monospace;
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+}
+
 a.get-dl {
   min-height: var(--touch);
   margin-top: 0;

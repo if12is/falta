@@ -26,13 +26,13 @@
 | --- | --- | --- |
 | `falta-chromium.zip` | كروم، إيدج، بريف، أوبرا، أو فيفالدي، على ويندوز أو أوبونتو أو ماك | فك الضغط. افتح صفحة الإضافات، فعّل وضع المطوّر، واختار المجلد اللي طلع (جواه `manifest.json`). تفضل بعد إعادة التشغيل. |
 | `falta-firefox.zip` | فايرفوكس | للتقديم على حساب المطوّر: ارفع الملف نفسه من غير فك ضغط. على جهازك دلوقتي: فك الضغط، ومن `about:debugging` اختار Load Temporary Add-on ثم `manifest.json`. النسخة المؤقتة بتتشال لما فايرفوكس يقفل. |
-| `falta-windows.zip` | ويندوز، لو عايز الصفحة تفتح مع تشغيل الجهاز ومعاها مجلد الإضافة | فك الضغط في مجلد ثابت. الإضافة من مجلد `extension` اللي جواه. ثم من جذر المجلد: `powershell -ExecutionPolicy Bypass -File scripts\startup\install-windows.ps1` |
-| `falta-ubuntu.zip` | أوبونتو أو أي لينكس | فك الضغط في مجلد ثابت. الإضافة من مجلد `extension`. ثم: `sh scripts/startup/install-linux.sh` |
-| `falta-macos.zip` | ماك | فك الضغط في مجلد ثابت. الإضافة من مجلد `extension`. ثم: `sh scripts/startup/install-macos.sh` |
+| `falta-windows.zip` | ويندوز، لو عايز تقلب النص في أي برنامج على الجهاز | فك الضغط في مجلد هتسيبه، مثلاً `Desktop\Falta`، وما تحذفوش. اضغط مرتين على `scripts\startup\install-windows.cmd`. بعد كده علّم النص واضغط `Ctrl+Shift+Y`. البرنامج يشتغل مع تشغيل ويندوز. |
+| `falta-ubuntu.zip` | أوبونتو، لو عايز تقلب النص في أي برنامج | فك الضغط في مجلد هتسيبه وما تحذفوش. من المجلد: `sh scripts/startup/install-linux.sh`. بعد كده `Ctrl+Shift+Y`. يشتغل مع تسجيل الدخول. |
+| `falta-macos.zip` | ماك، لو عايز تقلب النص في أي برنامج | فك الضغط في مجلد هتسيبه، وما تحذفوش وما تنقلوش. اضغط مرتين على `scripts/startup/install-macos.command`. بعد كده `Command+Shift+Y`. يشتغل مع تسجيل الدخول. |
 
 سفاري مش بيحمّل المجلد. بعد فك ضغط حزمة نظامك افتح `web/index.html`، أو افتح <https://if12is.github.io/falta/>.
 
-جوه حزم ويندوز وأوبونتو والماك ملف `INSTALL.txt` بنفس الخطوات. أوامر الإزالة مكتوبة هناك وفي قسم التشغيل تحت.
+الحزم الثلاثة دي برنامج على الجهاز، مش إضافة المتصفح. إضافة المتصفح قسم لوحده فوق، ولو عايزها جوه المتصفح بس. جوه كل حزمة ملف `INSTALL.txt` بنفس الخطوات. أوامر الإزالة مكتوبة هناك وفي قسم البرنامج على الجهاز تحت. Node 18 أو أحدث مطلوب، من <https://nodejs.org>. لو مش موجود، المثبّت يقف ويقول كده بالعربي والإنجليزي.
 
 ## التثبيت
 
@@ -92,34 +92,26 @@ node cli/falta.mjs --split "لا"
 - الزر العائم يتقفل من الإعدادات.
 - السمة الغامقة من الزر، أو من إعدادات الإضافة: زي الجهاز / فاتح / غامق.
 
-### تفتح مع تشغيل الجهاز
+### البرنامج على الجهاز
 
-السكربتات بتضيف اختصار يفتح `web/index.html` لما تسجّل دخول. مش بتتنفّذ لوحدها، ومش بتلمس مجلد Startup غير لما تشغّلها. الصفحة تشتغل من `file://` ومن غير سيرفر.
+ده مش إضافة المتصفح. بعد التثبيت، علّم نص في أي برنامج واضغط الاختصار: `Ctrl+Shift+Y` على ويندوز وأوبونتو، و`Command+Shift+Y` على الماك. اللوحة عربي ١٠١، زي الإضافة. لو مفيش نص متعلم، الحافظة ما تتمسحش.
 
-ويندوز، من جذر الريبو:
+البرنامج يشتغل مع تسجيل الدخول، من المجلد اللي فكيت فيه الضغط. ما تحذفش المجلد ده. المثبّتات مش بتشتغل لوحدها.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\startup\install-windows.ps1
-powershell -ExecutionPolicy Bypass -File scripts\startup\uninstall-windows.ps1
-```
+ويندوز: اضغط مرتين على `scripts\startup\install-windows.cmd`. للإزالة: `scripts\startup\uninstall-windows.cmd`.
 
-الماك:
-
-```bash
-sh scripts/startup/install-macos.sh
-sh scripts/startup/uninstall-macos.sh
-```
-
-تثبيت الماك بيحط LaunchAgent في `~/Library/LaunchAgents/io.github.if12is.falta.plist` ويفتح الصفحة في تسجيل الدخول الجاي.
-
-لينكس:
+أوبونتو، من جذر المجلد:
 
 ```bash
 sh scripts/startup/install-linux.sh
 sh scripts/startup/uninstall-linux.sh
 ```
 
-تثبيت لينكس بيحط `~/.config/autostart/falta.desktop` (أو تحت `XDG_CONFIG_HOME`).
+على واجهة واي لاند، المثبّت ممكن يطلب تثبيت `ydotool` ويطلب كلمة سر الجهاز. على Xorg بيكتفي بمكتبة `libxtst`.
+
+الماك: اضغط مرتين على `scripts/startup/install-macos.command`. أول مرة اسمح لـ `FaltaHotkey` من Privacy & Security ثم Accessibility. للإزالة: `scripts/startup/uninstall-macos.command`.
+
+تثبيت الماك بيحط LaunchAgent في `~/Library/LaunchAgents/io.github.if12is.falta.plist` ويسيبه شغال بعد تسجيل الدخول.
 
 ## الخصوصية
 
@@ -185,13 +177,13 @@ From <https://github.com/if12is/falta/releases/latest>, pick one file.
 | --- | --- | --- |
 | `falta-chromium.zip` | Chrome, Edge, Brave, Opera, or Vivaldi, on Windows, Ubuntu, or Mac | Unzip. Open the extensions page, turn on developer mode, and choose the unzipped folder (the one that contains `manifest.json`). It stays after a restart. |
 | `falta-firefox.zip` | Firefox | To submit on a developer account: upload the zip itself, still zipped. On your machine right now: unzip, then from `about:debugging` choose Load Temporary Add-on and `manifest.json`. A temporary add-on disappears when Firefox closes. |
-| `falta-windows.zip` | Windows, when you also want the page to open at startup | Unzip into a folder you will keep. Load the `extension` folder inside it. Then, from that unzipped folder: `powershell -ExecutionPolicy Bypass -File scripts\startup\install-windows.ps1` |
-| `falta-ubuntu.zip` | Ubuntu or any Linux | Unzip into a folder you will keep. Load the `extension` folder. Then: `sh scripts/startup/install-linux.sh` |
-| `falta-macos.zip` | Mac | Unzip into a folder you will keep. Load the `extension` folder. Then: `sh scripts/startup/install-macos.sh` |
+| `falta-windows.zip` | Windows, when you want to flip text in any program | Unzip into a folder you will keep, for example `Desktop\Falta`, and do not delete it. Double-click `scripts\startup\install-windows.cmd`. Then select text and press `Ctrl+Shift+Y`. The program starts with Windows. |
+| `falta-ubuntu.zip` | Ubuntu, when you want to flip text in any program | Unzip into a folder you will keep, and do not delete it. From that folder: `sh scripts/startup/install-linux.sh`. Then `Ctrl+Shift+Y`. It starts when you log in. |
+| `falta-macos.zip` | Mac, when you want to flip text in any program | Unzip into a folder you will keep. Do not delete it or move it. Double-click `scripts/startup/install-macos.command`. Then `Command+Shift+Y`. It starts when you log in. |
 
 Safari cannot load the folder. After unzipping your system package, open `web/index.html`, or open <https://if12is.github.io/falta/>.
 
-The Windows, Ubuntu, and Mac packages include `INSTALL.txt` with the same steps. Remove commands are in that file and in the login section below.
+Those three packages are a program on the computer, not the browser extension. The extension is its own section above, for people who only want it inside a browser. Each package includes `INSTALL.txt` with the same steps. Remove commands are in that file and in the program section below. Node 18 or newer is required, from <https://nodejs.org>. If it is missing, the installer stops and says so in Arabic and English.
 
 ## Install
 
@@ -251,34 +243,26 @@ node cli/falta.mjs --split "لا"
 - The floating button can be turned off in settings.
 - Dark theme is the button, or the extension settings: match the device / light / dark.
 
-### Open at login
+### Program on the computer
 
-The scripts add a shortcut that opens `web/index.html` when you sign in. They do not run by themselves, and they do not touch the Startup folder until you run them. The page works from `file://` with no server.
+This is not the browser extension. After install, select text in any program and press the shortcut: `Ctrl+Shift+Y` on Windows and Ubuntu, `Command+Shift+Y` on a Mac. The layout is Arabic 101, the same as the extension. If nothing is selected, the clipboard is left as it was.
 
-Windows, from the repo root:
+The program starts at login, from the folder you unzipped. Do not delete that folder. The installers do not run by themselves.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\startup\install-windows.ps1
-powershell -ExecutionPolicy Bypass -File scripts\startup\uninstall-windows.ps1
-```
+Windows: double-click `scripts\startup\install-windows.cmd`. To remove it: `scripts\startup\uninstall-windows.cmd`.
 
-Mac:
-
-```bash
-sh scripts/startup/install-macos.sh
-sh scripts/startup/uninstall-macos.sh
-```
-
-The Mac install writes a LaunchAgent at `~/Library/LaunchAgents/io.github.if12is.falta.plist` and opens the page at the next login.
-
-Linux:
+Ubuntu, from the unzipped folder:
 
 ```bash
 sh scripts/startup/install-linux.sh
 sh scripts/startup/uninstall-linux.sh
 ```
 
-The Linux install writes `~/.config/autostart/falta.desktop` (or under `XDG_CONFIG_HOME`).
+On a Wayland session the installer may install `ydotool` and ask for the computer password. On Xorg it uses `libxtst`.
+
+Mac: double-click `scripts/startup/install-macos.command`. The first time, allow `FaltaHotkey` in Privacy & Security, then Accessibility. To remove it: `scripts/startup/uninstall-macos.command`.
+
+The Mac install writes a LaunchAgent at `~/Library/LaunchAgents/io.github.if12is.falta.plist` and keeps it running after you log in.
 
 ## Privacy
 
