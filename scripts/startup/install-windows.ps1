@@ -110,6 +110,7 @@ try {
   Stop-FaltaHotkey
   . (Join-Path $PSScriptRoot "falta-win.ps1")
   $lnkPath = Install-FaltaLoginShortcut -Root $root -Hotkey $hotkey
+  $powershell = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
 
   Start-Process -FilePath $powershell -ArgumentList "-NoProfile -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$hotkey`"" -WorkingDirectory $root -WindowStyle Hidden
   $alive = $null

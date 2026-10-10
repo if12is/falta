@@ -167,6 +167,7 @@ System Settings → Privacy & Security → Accessibility
 هتشتغل لما تسجّل دخول.
 
 ما تحذفش المجلد ده وما تنقلوش من مكانه.
+أيقونة فلتة في شريط القائمة فوق. منها الإعدادات وخروج.
 
 ---
 
@@ -178,5 +179,6 @@ System Settings → Privacy & Security → Accessibility
 Select text in any program and press Command+Shift+Y.
 It starts when you log in.
 
-Do not delete this folder, and do not move it.'
+Do not delete this folder, and do not move it.
+A Falta icon sits in the menu bar. Settings and Quit are there.'
 tell "$OK_MSG"
