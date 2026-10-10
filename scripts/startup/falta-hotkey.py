@@ -6,8 +6,11 @@ pastes it back, and restores the clipboard. If nothing is selected, the
 clipboard is restored and nothing is pasted.
 """
 
+import ast
+import json
 import os
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -420,6 +423,504 @@ def run_once():
     return 0
 
 
+FALTA_BIND_PATH = "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/falta/"
+_tray_lock = None
+_indicator = None
+
+
+def config_home():
+    base = os.environ.get("XDG_CONFIG_HOME")
+    if base:
+        return base
+    return os.path.join(os.path.expanduser("~"), ".config")
+
+
+def settings_path():
+    return os.path.join(config_home(), "falta", "settings.json")
+
+
+def read_layout():
+    try:
+        with open(settings_path(), encoding="utf-8") as handle:
+            data = json.load(handle)
+    except (OSError, ValueError):
+        return "windows"
+    if isinstance(data, dict) and data.get("layout") == "mac":
+        return "mac"
+    return "windows"
+
+
+def write_layout(layout):
+    value = "mac" if layout == "mac" else "windows"
+    path = settings_path()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write('{"layout":"' + value + '"}\n')
+
+
+def state_dir():
+    return os.path.expanduser("~/.local/share/falta")
+
+
+def pid_alive(pid):
+    if not pid or pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
+
+
+def listener_pid():
+    raw = os.environ.get("FALTA_LISTENER_PID", "").strip()
+    if raw:
+        try:
+            pid = int(raw)
+        except ValueError:
+            return None
+        return pid if pid_alive(pid) else None
+    path = os.path.join(state_dir(), "hotkey.lock")
+    try:
+        with open(path, encoding="utf-8") as handle:
+            pid = int(handle.read().strip())
+    except (OSError, ValueError):
+        return None
+    return pid if pid_alive(pid) else None
+
+
+def autostart_file(name):
+    return os.path.join(config_home(), "autostart", name)
+
+
+def once_command():
+    script = os.path.abspath(__file__).replace("\\", "\\\\").replace('"', '\\"')
+    return sys.executable + ' "' + script + '" --once'
+
+
+def gsettings_items():
+    raw = subprocess.check_output(
+        ["gsettings", "get", "org.gnome.settings-daemon.plugins.media-keys", "custom-keybindings"],
+        text=True,
+    ).strip()
+    if raw in ("@as []", "[]"):
+        return []
+    return list(ast.literal_eval(raw))
+
+
+def set_gsettings_items(items):
+    literal = "[" + ", ".join("'" + item + "'" for item in items) + "]"
+    subprocess.check_call([
+        "gsettings", "set",
+        "org.gnome.settings-daemon.plugins.media-keys",
+        "custom-keybindings",
+        literal,
+    ])
+
+
+def gnome_bound():
+    return FALTA_BIND_PATH in gsettings_items()
+
+
+def bind_gnome():
+    if not shutil.which("gsettings"):
+        raise RuntimeError("gsettings missing")
+    items = gsettings_items()
+    if FALTA_BIND_PATH not in items:
+        items.append(FALTA_BIND_PATH)
+    set_gsettings_items(items)
+    base = "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:" + FALTA_BIND_PATH
+    subprocess.check_call(["gsettings", "set", base, "name", "Falta"])
+    subprocess.check_call(["gsettings", "set", base, "command", once_command()])
+    subprocess.check_call(["gsettings", "set", base, "binding", "<Control><Shift>y"])
+
+
+def unbind_gnome():
+    if not shutil.which("gsettings"):
+        return
+    try:
+        items = [item for item in gsettings_items() if item != FALTA_BIND_PATH]
+        set_gsettings_items(items)
+    except (OSError, subprocess.SubprocessError, ValueError, SyntaxError):
+        pass
+
+
+def ydotoold_unit():
+    return os.path.expanduser("~/.config/systemd/user/falta-ydotoold.service")
+
+
+def ydotoold_enabled():
+    if os.path.isfile(autostart_file("falta-ydotoold.desktop")):
+        return True
+    if not shutil.which("systemctl") or not os.path.isfile(ydotoold_unit()):
+        return False
+    result = subprocess.run(
+        ["systemctl", "--user", "is-enabled", "falta-ydotoold.service"],
+        capture_output=True,
+        text=True,
+    )
+    return result.returncode == 0
+
+
+def ensure_ydotoold():
+    daemon = shutil.which("ydotoold")
+    if not daemon:
+        raise RuntimeError("ydotoold missing")
+    unit = ydotoold_unit()
+    os.makedirs(os.path.dirname(unit), exist_ok=True)
+    if not os.path.isfile(unit):
+        with open(unit, "w", encoding="utf-8", newline="\n") as handle:
+            handle.write(
+                "[Unit]\n"
+                "Description=Falta typing helper\n\n"
+                "[Service]\n"
+                "ExecStart=" + daemon + "\n"
+                "Restart=on-failure\n\n"
+                "[Install]\n"
+                "WantedBy=default.target\n"
+            )
+    if shutil.which("systemctl"):
+        subprocess.run(["systemctl", "--user", "daemon-reload"], check=False)
+        result = subprocess.run(
+            ["systemctl", "--user", "enable", "--now", "falta-ydotoold.service"],
+            check=False,
+        )
+        if result.returncode == 0:
+            try:
+                os.remove(autostart_file("falta-ydotoold.desktop"))
+            except FileNotFoundError:
+                pass
+            return
+    desktop = autostart_file("falta-ydotoold.desktop")
+    os.makedirs(os.path.dirname(desktop), exist_ok=True)
+    with open(desktop, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(
+            "[Desktop Entry]\n"
+            "Type=Application\n"
+            "Version=1.0\n"
+            "Name=Falta typing helper\n"
+            "Comment=Lets Falta type the flipped text\n"
+            "Exec=" + daemon + "\n"
+            "Terminal=false\n"
+            "X-GNOME-Autostart-enabled=true\n"
+        )
+
+
+def disable_ydotoold():
+    if shutil.which("systemctl"):
+        subprocess.run(["systemctl", "--user", "disable", "falta-ydotoold.service"], check=False)
+    try:
+        os.remove(autostart_file("falta-ydotoold.desktop"))
+    except FileNotFoundError:
+        pass
+
+
+def x11_autostart_enabled():
+    path = autostart_file("falta.desktop")
+    if not os.path.isfile(path):
+        return False
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read()
+    return "X-GNOME-Autostart-enabled=false" not in text
+
+
+def write_x11_autostart():
+    path = autostart_file("falta.desktop")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    script = os.path.abspath(__file__)
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(
+            "[Desktop Entry]\n"
+            "Type=Application\n"
+            "Version=1.0\n"
+            "Name=Falta\n"
+            "Name[ar]=فلتة\n"
+            "Comment=Flip selected text with Ctrl+Shift+Y\n"
+            'Exec=' + sys.executable + ' "' + script + '" --listen\n'
+            "Terminal=false\n"
+            "X-GNOME-Autostart-enabled=true\n"
+        )
+
+
+def wayland_login_enabled():
+    try:
+        bound = gnome_bound()
+    except (OSError, subprocess.SubprocessError, ValueError, SyntaxError):
+        return False
+    return bound and ydotoold_enabled()
+
+
+def login_enabled():
+    if session_is_wayland():
+        return wayland_login_enabled()
+    return x11_autostart_enabled()
+
+
+def set_login(on):
+    if session_is_wayland():
+        if on:
+            ensure_ydotoold()
+            bind_gnome()
+        else:
+            unbind_gnome()
+            disable_ydotoold()
+        return
+    if on:
+        write_x11_autostart()
+    else:
+        try:
+            os.remove(autostart_file("falta.desktop"))
+        except FileNotFoundError:
+            pass
+
+
+def status_note():
+    if session_is_wayland():
+        try:
+            bound = gnome_bound()
+        except (OSError, subprocess.SubprocessError, ValueError, SyntaxError):
+            bound = False
+        if bound:
+            return "الاختصار متسجل في جنوم"
+        return "الاختصار مش متسجل"
+    if listener_pid():
+        return "فلتة شغالة"
+    return "فلتة مش شغالة"
+
+
+def session_note():
+    if session_is_wayland():
+        return "على واي لاند مفيش أيقونة في الشريط. الإعدادات من قائمة البرامج، والاختصار ثابت من جنوم."
+    return "الأيقونة في شريط الحالة لو الجلسة بتظهرها. لو مش ظاهرة، افتح فلتة من قائمة البرامج."
+
+
+def login_note():
+    if session_is_wayland():
+        return "إلغاء العلامة يوقف اختصار جنوم دلوقتي، ومش هيرجع لما تسجّل دخول."
+    return "إلغاء العلامة ما يقفلش البرنامج دلوقتي. خروج من الأيقونة يوقفه."
+
+
+def open_settings_process():
+    subprocess.Popen(
+        [sys.executable, os.path.abspath(__file__), "--settings"],
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+
+
+def load_appindicator():
+    import gi
+    for name, version in (("AyatanaAppIndicator3", "0.1"), ("AppIndicator3", "0.1")):
+        try:
+            gi.require_version(name, version)
+            repository = __import__("gi.repository", fromlist=[name])
+            return getattr(repository, name)
+        except (ImportError, ValueError, AttributeError):
+            continue
+    return None
+
+
+def take_tray_lock():
+    global _tray_lock
+    folder = state_dir()
+    os.makedirs(folder, exist_ok=True)
+    handle = open(os.path.join(folder, "tray.lock"), "w", encoding="utf-8")
+    try:
+        import fcntl
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        handle.close()
+        return False
+    handle.write(str(os.getpid()))
+    handle.flush()
+    _tray_lock = handle
+    return True
+
+
+def spawn_tray():
+    if session_is_wayland():
+        return
+    env = os.environ.copy()
+    env["FALTA_LISTENER_PID"] = str(os.getpid())
+    subprocess.Popen(
+        [sys.executable, os.path.abspath(__file__), "--tray"],
+        env=env,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+
+
+def run_tray():
+    global _indicator
+    if session_is_wayland():
+        sys.stderr.write("على واي لاند مفيش أيقونة في الشريط. افتح «فلتة» من قائمة البرامج.\n")
+        return 0
+    if not take_tray_lock():
+        return 0
+    if not ensure_gtk():
+        sys.stderr.write("فلتة ما لقتش أيقونة شريط. الإعدادات من قائمة البرامج.\n")
+        return 0
+    indicator_mod = load_appindicator()
+    if indicator_mod is None:
+        sys.stderr.write("فلتة ما لقتش أيقونة شريط. الإعدادات من قائمة البرامج.\n")
+        return 0
+    from gi.repository import GLib, Gtk
+
+    menu = Gtk.Menu()
+    running = Gtk.MenuItem.new_with_label(status_note())
+    running.set_sensitive(False)
+    menu.append(running)
+    shortcut = Gtk.MenuItem.new_with_label("الاختصار: Ctrl+Shift+Y")
+    shortcut.set_sensitive(False)
+    menu.append(shortcut)
+    settings_item = Gtk.MenuItem.new_with_label("الإعدادات")
+    settings_item.connect("activate", lambda *_args: open_settings_process())
+    menu.append(settings_item)
+    quit_item = Gtk.MenuItem.new_with_label("خروج")
+
+    def on_quit(_item):
+        pid = listener_pid()
+        if pid and pid != os.getpid():
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except OSError:
+                pass
+        Gtk.main_quit()
+
+    quit_item.connect("activate", on_quit)
+    menu.append(quit_item)
+    menu.show_all()
+
+    icon_dir = os.path.join(ROOT, "extension", "icons")
+    icon_file = os.path.join(icon_dir, "icon128.png")
+    indicator = indicator_mod.Indicator.new(
+        "falta",
+        "icon128",
+        indicator_mod.IndicatorCategory.APPLICATION_STATUS,
+    )
+    if hasattr(indicator, "set_icon_theme_path"):
+        indicator.set_icon_theme_path(icon_dir)
+    indicator.set_icon("icon128")
+    if hasattr(indicator, "set_icon_full") and os.path.isfile(icon_file):
+        indicator.set_icon_full(icon_file, "فلتة")
+    if hasattr(indicator, "set_title"):
+        indicator.set_title("فلتة")
+    indicator.set_status(indicator_mod.IndicatorStatus.ACTIVE)
+    indicator.set_menu(menu)
+    _indicator = indicator
+
+    def watch():
+        if listener_pid() is None:
+            Gtk.main_quit()
+            return False
+        return True
+
+    GLib.timeout_add_seconds(2, watch)
+    Gtk.main()
+    return 0
+
+
+def run_settings():
+    if not ensure_gtk():
+        sys.stderr.write("فلتة محتاجة GTK عشان تفتح الإعدادات.\n")
+        return 1
+    from gi.repository import Gtk
+
+    win = Gtk.Window(title="فلتة — الإعدادات")
+    win.set_default_size(460, 420)
+    win.set_resizable(False)
+    win.set_position(Gtk.WindowPosition.CENTER)
+    win.set_direction(Gtk.TextDirection.RTL)
+    win.connect("destroy", Gtk.main_quit)
+    icon_file = os.path.join(ROOT, "extension", "icons", "icon128.png")
+    if os.path.isfile(icon_file):
+        try:
+            win.set_icon_from_file(icon_file)
+        except Exception:
+            pass
+    try:
+        provider = Gtk.CssProvider()
+        provider.load_from_data(b"window { background-color: #f7f3ec; } label { color: #241c16; }")
+        Gtk.StyleContext.add_provider_for_screen(
+            win.get_screen(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+        )
+    except Exception:
+        pass
+
+    box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+    box.set_margin_top(16)
+    box.set_margin_bottom(16)
+    box.set_margin_start(16)
+    box.set_margin_end(16)
+    win.add(box)
+
+    def add_label(text):
+        label = Gtk.Label(label=text)
+        label.set_xalign(1)
+        label.set_line_wrap(True)
+        label.set_max_width_chars(42)
+        label.set_justify(Gtk.Justification.RIGHT)
+        box.pack_start(label, False, False, 0)
+        return label
+
+    status = add_label(status_note())
+    add_label("الاختصار: Ctrl+Shift+Y")
+    add_label("الاختصار ثابت ومش بيتغيّر من هنا.")
+    add_label(session_note())
+    add_label("لوحة الكيبورد")
+
+    layout = read_layout()
+    windows_btn = Gtk.RadioButton.new_with_label_from_widget(None, "عربي ١٠١")
+    mac_btn = Gtk.RadioButton.new_with_label_from_widget(windows_btn, "عربي الماك")
+    if layout == "mac":
+        mac_btn.set_active(True)
+    else:
+        windows_btn.set_active(True)
+    box.pack_start(windows_btn, False, False, 0)
+    box.pack_start(mac_btn, False, False, 0)
+    add_label("عربي ١٠١ لويندوز ولينكس ولوحة Arabic - PC. عربي الماك للوحة Arabic الأصلية. الصف السفلي هو اللي بيتغير. التغيير يشتغل من القلب الجاي.")
+
+    def on_layout(button, value):
+        if button.get_active():
+            write_layout(value)
+
+    windows_btn.connect("toggled", on_layout, "windows")
+    mac_btn.connect("toggled", on_layout, "mac")
+
+    login = Gtk.CheckButton.new_with_label("تشغيل مع تسجيل الدخول")
+    login.set_active(login_enabled())
+    box.pack_start(login, False, False, 0)
+    add_label(login_note())
+    error = add_label("")
+
+    def on_login(button):
+        try:
+            set_login(button.get_active())
+            error.set_text("")
+            status.set_text(status_note())
+        except Exception as exc:
+            sys.stderr.write(str(exc) + "\n")
+            button.handler_block(login_handler)
+            button.set_active(login_enabled())
+            button.handler_unblock(login_handler)
+            error.set_text("ما اتسجلش التغيير.")
+
+    login_handler = login.connect("toggled", on_login)
+
+    close = Gtk.Button(label="إغلاق")
+    close.connect("clicked", lambda *_args: win.destroy())
+    box.pack_start(close, False, False, 0)
+    win.show_all()
+    Gtk.main()
+    return 0
+
+
 def listen():
     if session_is_wayland():
         return 0
@@ -430,6 +931,10 @@ def listen():
         sys.stderr.write("Falta could not open the X11 display.\n")
         return 1
     keys.grab()
+    try:
+        spawn_tray()
+    except Exception:
+        pass
     keys.listen()
     return 0
 
@@ -440,7 +945,11 @@ def main():
         return listen()
     if command == "--once":
         return run_once()
-    sys.stderr.write("usage: falta-hotkey.py --listen|--once\n")
+    if command == "--tray":
+        return run_tray()
+    if command == "--settings":
+        return run_settings()
+    sys.stderr.write("usage: falta-hotkey.py --listen|--once|--settings|--tray\n")
     return 2
 
 

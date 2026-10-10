@@ -108,18 +108,8 @@ try {
 
   Set-Content -LiteralPath $nodeFile -Value $node -Encoding ascii
   Stop-FaltaHotkey
-
-  $startup = [Environment]::GetFolderPath("Startup")
-  $lnkPath = Join-Path $startup "Falta.lnk"
-  $powershell = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
-  $shell = New-Object -ComObject WScript.Shell
-  $shortcut = $shell.CreateShortcut($lnkPath)
-  $shortcut.TargetPath = $powershell
-  $shortcut.Arguments = "-NoProfile -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$hotkey`""
-  $shortcut.WorkingDirectory = $root
-  $shortcut.WindowStyle = 7
-  $shortcut.Description = "Falta — Ctrl+Shift+Y"
-  $shortcut.Save()
+  . (Join-Path $PSScriptRoot "falta-win.ps1")
+  $lnkPath = Install-FaltaLoginShortcut -Root $root -Hotkey $hotkey
 
   Start-Process -FilePath $powershell -ArgumentList "-NoProfile -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$hotkey`"" -WorkingDirectory $root -WindowStyle Hidden
   $alive = $null
@@ -146,6 +136,7 @@ try {
 هتشتغل كمان بعد ما الجهاز يعيد التشغيل.
 
 ما تحذفش المجلد ده، لأن البرنامج بيشتغل منه.
+أيقونة فلتة بتظهر جنب الساعة. لو اتخبّت، افتح سهم الأيقونات المخفية. منها الإعدادات وخروج.
 "@
   $okEn = @"
 Falta is installed.
@@ -154,6 +145,7 @@ Select text in any program (Word, Notepad, a browser, chat) and press Ctrl+Shift
 It also starts when Windows starts.
 
 Do not delete this folder. The program runs from it.
+A Falta icon appears by the clock. If it is hidden, open the hidden-icons arrow. Settings and Quit are there.
 "@
   $ok = $okAr.Trim() + "`r`n`r`n---" + "`r`n`r`n" + $okEn.Trim()
   Write-Output $ok

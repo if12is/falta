@@ -348,6 +348,18 @@ sudo apt install libxtst6
 
 Then run this installer again.'
   fi
+  if ! "$py" -c 'import gi
+ns = None
+try:
+    gi.require_version("AyatanaAppIndicator3", "0.1")
+    ns = "AyatanaAppIndicator3"
+except ValueError:
+    pass
+if ns is None:
+    gi.require_version("AppIndicator3", "0.1")
+' >/dev/null 2>&1; then
+    install_pkgs gir1.2-ayatanaappindicator3-0.1 || install_pkgs gir1.2-appindicator3-0.1 || true
+  fi
   unbind_gnome
   rm -f "$AUTOSTART/falta-ydotoold.desktop"
   cat > "$AUTOSTART/falta.desktop" << EOF
@@ -361,12 +373,29 @@ Exec=$py "$SCRIPT" --listen
 Terminal=false
 X-GNOME-Autostart-enabled=true
 EOF
-  if pgrep -f "falta-hotkey.py --listen" >/dev/null 2>&1; then
+  if pgrep -f "falta-hotkey.py --listen" >/dev/null 2>&1 || pgrep -f "falta-hotkey.py --tray" >/dev/null 2>&1; then
     pkill -f "falta-hotkey.py --listen" || true
+    pkill -f "falta-hotkey.py --tray" || true
     sleep 0.3
   fi
   "$py" "$SCRIPT" --listen >/dev/null 2>&1 &
 fi
+
+APPS="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+mkdir -p "$APPS"
+cat > "$APPS/falta-settings.desktop" << EOF
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=فلتة
+Name[en]=Falta
+Comment=إعدادات فلتة
+Exec=$py "$SCRIPT" --settings
+Icon=$ROOT/extension/icons/icon128.png
+Terminal=false
+Categories=Utility;
+StartupNotify=false
+EOF
 
 printf '%s\n' "$session" > "$CONFIG/session"
 
@@ -388,3 +417,16 @@ It starts when you log in.
 Do not delete this folder. The program runs from it.
 If the shortcut does not work after a restart, log out and back in once.'
 printf '%s\n' "$OK_MSG"
+if [ "$session" = "wayland" ]; then
+  printf '\n%s\n' 'على واي لاند مفيش أيقونة في الشريط. الإعدادات من قائمة البرامج: فلتة.
+
+---
+
+On Wayland there is no tray icon. Settings are in the app menu, under فلتة.'
+else
+  printf '\n%s\n' 'أيقونة فلتة في شريط الحالة لو الجلسة بتظهرها. لو مش ظاهرة، الإعدادات من قائمة البرامج.
+
+---
+
+Falta adds a status icon when the session can show one. If it is hidden, settings are in the app menu.'
+fi

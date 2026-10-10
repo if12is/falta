@@ -26,9 +26,9 @@
 | --- | --- | --- |
 | `falta-chromium.zip` | كروم، إيدج، بريف، أوبرا، أو فيفالدي، على ويندوز أو أوبونتو أو ماك | فك الضغط. افتح صفحة الإضافات، فعّل وضع المطوّر، واختار المجلد اللي طلع (جواه `manifest.json`). تفضل بعد إعادة التشغيل. |
 | `falta-firefox.zip` | فايرفوكس | للتقديم على حساب المطوّر: ارفع الملف نفسه من غير فك ضغط. على جهازك دلوقتي: فك الضغط، ومن `about:debugging` اختار Load Temporary Add-on ثم `manifest.json`. النسخة المؤقتة بتتشال لما فايرفوكس يقفل. |
-| `falta-windows.zip` | ويندوز، لو عايز تقلب النص في أي برنامج على الجهاز | فك الضغط في مجلد هتسيبه، مثلاً `Desktop\Falta`، وما تحذفوش. اضغط مرتين على `scripts\startup\install-windows.cmd`. بعد كده علّم النص واضغط `Ctrl+Shift+Y`. البرنامج يشتغل مع تشغيل ويندوز. |
-| `falta-ubuntu.zip` | أوبونتو، لو عايز تقلب النص في أي برنامج | فك الضغط في مجلد هتسيبه وما تحذفوش. من المجلد: `sh scripts/startup/install-linux.sh`. بعد كده `Ctrl+Shift+Y`. يشتغل مع تسجيل الدخول. |
-| `falta-macos.zip` | ماك، لو عايز تقلب النص في أي برنامج | فك الضغط في مجلد هتسيبه، وما تحذفوش وما تنقلوش. اضغط مرتين على `scripts/startup/install-macos.command`. بعد كده `Command+Shift+Y`. يشتغل مع تسجيل الدخول. |
+| `falta-windows.zip` | ويندوز، لو عايز تقلب النص في أي برنامج على الجهاز | فك الضغط في مجلد هتسيبه، مثلاً `Desktop\Falta`، وما تحذفوش. اضغط مرتين على `scripts\startup\install-windows.cmd`. بعد كده علّم النص واضغط `Ctrl+Shift+Y`. البرنامج يشتغل مع تشغيل ويندوز. أيقونة فلتة بتظهر جنب الساعة، ولو اتخبّت افتح السهم. |
+| `falta-ubuntu.zip` | أوبونتو، لو عايز تقلب النص في أي برنامج | فك الضغط في مجلد هتسيبه وما تحذفوش. من المجلد: `sh scripts/startup/install-linux.sh`. بعد كده `Ctrl+Shift+Y`. يشتغل مع تسجيل الدخول. على Xorg الأيقونة في الشريط لو الجلسة بتظهرها، وعلى واي لاند مفيش أيقونة والإعدادات من قائمة البرامج. |
+| `falta-macos.zip` | ماك، لو عايز تقلب النص في أي برنامج | فك الضغط في مجلد هتسيبه، وما تحذفوش وما تنقلوش. اضغط مرتين على `scripts/startup/install-macos.command`. بعد كده `Command+Shift+Y`. يشتغل مع تسجيل الدخول. أيقونة فلتة في شريط القائمة فوق. |
 
 سفاري مش بيحمّل المجلد. بعد فك ضغط حزمة نظامك افتح `web/index.html`، أو افتح <https://if12is.github.io/falta/>.
 
@@ -94,7 +94,7 @@ node cli/falta.mjs --split "لا"
 
 ### البرنامج على الجهاز
 
-ده مش إضافة المتصفح. بعد التثبيت، علّم نص في أي برنامج واضغط الاختصار: `Ctrl+Shift+Y` على ويندوز وأوبونتو، و`Command+Shift+Y` على الماك. اللوحة عربي ١٠١، زي الإضافة. لو مفيش نص متعلم، الحافظة ما تتمسحش.
+ده مش إضافة المتصفح. بعد التثبيت، علّم نص في أي برنامج واضغط الاختصار: `Ctrl+Shift+Y` على ويندوز وأوبونتو، و`Command+Shift+Y` على الماك. اللوحة عربي ١٠١، زي الإضافة، وتقدر تغيّرها من إعدادات البرنامج. لو مفيش نص متعلم، الحافظة ما تتمسحش. على ويندوز الأيقونة جنب الساعة، وعلى الماك في شريط القائمة، وعلى أوبونتو Xorg في الشريط لو الجلسة بتظهره، وعلى واي لاند مفيش أيقونة.
 
 البرنامج يشتغل مع تسجيل الدخول، من المجلد اللي فكيت فيه الضغط. ما تحذفش المجلد ده. المثبّتات مش بتشتغل لوحدها.
 
@@ -177,9 +177,9 @@ From <https://github.com/if12is/falta/releases/latest>, pick one file.
 | --- | --- | --- |
 | `falta-chromium.zip` | Chrome, Edge, Brave, Opera, or Vivaldi, on Windows, Ubuntu, or Mac | Unzip. Open the extensions page, turn on developer mode, and choose the unzipped folder (the one that contains `manifest.json`). It stays after a restart. |
 | `falta-firefox.zip` | Firefox | To submit on a developer account: upload the zip itself, still zipped. On your machine right now: unzip, then from `about:debugging` choose Load Temporary Add-on and `manifest.json`. A temporary add-on disappears when Firefox closes. |
-| `falta-windows.zip` | Windows, when you want to flip text in any program | Unzip into a folder you will keep, for example `Desktop\Falta`, and do not delete it. Double-click `scripts\startup\install-windows.cmd`. Then select text and press `Ctrl+Shift+Y`. The program starts with Windows. |
-| `falta-ubuntu.zip` | Ubuntu, when you want to flip text in any program | Unzip into a folder you will keep, and do not delete it. From that folder: `sh scripts/startup/install-linux.sh`. Then `Ctrl+Shift+Y`. It starts when you log in. |
-| `falta-macos.zip` | Mac, when you want to flip text in any program | Unzip into a folder you will keep. Do not delete it or move it. Double-click `scripts/startup/install-macos.command`. Then `Command+Shift+Y`. It starts when you log in. |
+| `falta-windows.zip` | Windows, when you want to flip text in any program | Unzip into a folder you will keep, for example `Desktop\Falta`, and do not delete it. Double-click `scripts\startup\install-windows.cmd`. Then select text and press `Ctrl+Shift+Y`. The program starts with Windows. A Falta icon appears by the clock; if it is hidden, open the arrow. |
+| `falta-ubuntu.zip` | Ubuntu, when you want to flip text in any program | Unzip into a folder you will keep, and do not delete it. From that folder: `sh scripts/startup/install-linux.sh`. Then `Ctrl+Shift+Y`. It starts when you log in. On Xorg the icon is in the status area when the session can show it. On Wayland there is no tray icon, and settings are in the app menu. |
+| `falta-macos.zip` | Mac, when you want to flip text in any program | Unzip into a folder you will keep. Do not delete it or move it. Double-click `scripts/startup/install-macos.command`. Then `Command+Shift+Y`. It starts when you log in. A Falta icon sits in the menu bar. |
 
 Safari cannot load the folder. After unzipping your system package, open `web/index.html`, or open <https://if12is.github.io/falta/>.
 
@@ -245,7 +245,7 @@ node cli/falta.mjs --split "لا"
 
 ### Program on the computer
 
-This is not the browser extension. After install, select text in any program and press the shortcut: `Ctrl+Shift+Y` on Windows and Ubuntu, `Command+Shift+Y` on a Mac. The layout is Arabic 101, the same as the extension. If nothing is selected, the clipboard is left as it was.
+This is not the browser extension. After install, select text in any program and press the shortcut: `Ctrl+Shift+Y` on Windows and Ubuntu, `Command+Shift+Y` on a Mac. The layout starts as Arabic 101, the same as the extension, and the desktop settings can change it. If nothing is selected, the clipboard is left as it was. On Windows the icon is by the clock, on a Mac it is in the menu bar, on Ubuntu Xorg it is in the status area when the session can show it, and on Wayland there is no tray icon.
 
 The program starts at login, from the folder you unzipped. Do not delete that folder. The installers do not run by themselves.
 

@@ -5,10 +5,20 @@ try { chcp 65001 > $null } catch {}
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $procs = Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {
-  $_.CommandLine -and ($_.CommandLine -like "*falta-hotkey.ps1*")
+  $_.CommandLine -and (
+    $_.CommandLine -like "*falta-hotkey.ps1*" -or
+    $_.CommandLine -like "*falta-settings.ps1*"
+  )
 }
 foreach ($proc in $procs) {
   Stop-Process -Id $proc.ProcessId -Force -ErrorAction SilentlyContinue
+}
+
+$settings = Join-Path $env:LOCALAPPDATA "Falta\settings.json"
+if (Test-Path -LiteralPath $settings) {
+  Remove-Item -LiteralPath $settings -Force
+  Write-Output "Removed:"
+  Write-Output $settings
 }
 
 $startup = [Environment]::GetFolderPath("Startup")

@@ -272,7 +272,87 @@ function Invoke-FaltaFlip {
   Restore-ClipSnap $snap
 }
 
+function Start-FaltaSettings {
+  $settings = Join-Path $PSScriptRoot "falta-settings.ps1"
+  if (-not (Test-Path -LiteralPath $settings)) { return }
+  $powershell = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
+  Start-Process -FilePath $powershell -ArgumentList "-NoProfile -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$settings`"" -WorkingDirectory $root -WindowStyle Hidden
+}
+
+function Show-FaltaTray {
+  $iconFile = Join-Path $root "extension\icons\icon128.png"
+  if (-not (Test-Path -LiteralPath $iconFile)) {
+    $iconFile = Join-Path $root "extension\icons\icon32.png"
+  }
+  if (-not (Test-Path -LiteralPath $iconFile)) {
+    Write-HotkeyLog "tray icon missing"
+    return
+  }
+
+  $loaded = [System.Drawing.Bitmap]::FromFile($iconFile)
+  $src = New-Object System.Drawing.Bitmap $loaded
+  $loaded.Dispose()
+  $small = New-Object System.Drawing.Bitmap 32, 32
+  $graphics = [System.Drawing.Graphics]::FromImage($small)
+  $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+  $graphics.DrawImage($src, 0, 0, 32, 32)
+  $graphics.Dispose()
+  $script:traySource = $src
+  $script:trayBitmap = $small
+  $script:trayIcon = [System.Drawing.Icon]::FromHandle($small.GetHicon())
+
+  $menu = New-Object System.Windows.Forms.ContextMenuStrip
+  $menu.RightToLeft = [System.Windows.Forms.RightToLeft]::Yes
+  $script:trayMenu = $menu
+
+  $running = New-Object System.Windows.Forms.ToolStripMenuItem "فلتة شغالة"
+  $running.Enabled = $false
+  [void]$menu.Items.Add($running)
+
+  $shortcutItem = New-Object System.Windows.Forms.ToolStripMenuItem "الاختصار: Ctrl+Shift+Y"
+  $shortcutItem.Enabled = $false
+  [void]$menu.Items.Add($shortcutItem)
+
+  $settingsItem = New-Object System.Windows.Forms.ToolStripMenuItem "الإعدادات"
+  $settingsItem.add_Click({ Start-FaltaSettings })
+  [void]$menu.Items.Add($settingsItem)
+
+  $quitItem = New-Object System.Windows.Forms.ToolStripMenuItem "خروج"
+  $quitItem.add_Click({
+    try { $script:window.Stop() } catch {}
+    try {
+      $script:notify.Visible = $false
+      $script:notify.Dispose()
+    } catch {}
+    [System.Windows.Forms.Application]::Exit()
+  })
+  [void]$menu.Items.Add($quitItem)
+
+  $notify = New-Object System.Windows.Forms.NotifyIcon
+  $notify.Icon = $script:trayIcon
+  $notify.Visible = $true
+  $notify.Text = "فلتة — Ctrl+Shift+Y"
+  $notify.ContextMenuStrip = $menu
+  $script:notify = $notify
+
+  $flags = [System.Reflection.BindingFlags]::Instance -bor [System.Reflection.BindingFlags]::NonPublic
+  $script:showTrayMenu = [System.Windows.Forms.NotifyIcon].GetMethod("ShowContextMenu", $flags)
+  $notify.add_MouseUp({
+    param($sender, $e)
+    if ($e.Button -ne [System.Windows.Forms.MouseButtons]::Left) { return }
+    try {
+      if ($script:showTrayMenu) {
+        $script:showTrayMenu.Invoke($sender, $null)
+        return
+      }
+    } catch {}
+    try { $script:trayMenu.Show([System.Windows.Forms.Cursor]::Position) } catch {}
+  })
+  Write-HotkeyLog "tray ready"
+}
+
 $window = New-Object FaltaHotkey.Window
+$script:window = $window
 if (-not $window.Start()) {
   Write-HotkeyLog "RegisterHotKey failed"
   try {
@@ -297,6 +377,12 @@ $window.add_Pressed({
     $script:busy = $false
   }
 })
+
+try {
+  Show-FaltaTray
+} catch {
+  Write-HotkeyLog ("tray: " + $_.Exception.Message)
+}
 
 Write-HotkeyLog "listening"
 [System.Windows.Forms.Application]::Run()

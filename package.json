@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "pack": "node scripts/pack.mjs",
-    "test": "node --test tests/convert.test.js tests/contrast.test.js tests/manifest.test.js"
+    "test": "node --test tests/convert.test.js tests/contrast.test.js tests/manifest.test.js tests/settings.test.js"
   },
   "engines": {
     "node": ">=18"

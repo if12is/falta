@@ -12,6 +12,12 @@ if [ -f "$PLIST" ]; then
 else
   printf '%s\n' "No LaunchAgent at $PLIST"
 fi
+SETTINGS="$HOME/Library/Application Support/Falta/settings.json"
+if [ -f "$SETTINGS" ]; then
+  rm -f "$SETTINGS"
+  printf '%s\n' "Removed: $SETTINGS"
+fi
+rmdir "$HOME/Library/Application Support/Falta" 2>/dev/null || true
 printf '%s\n' 'فلتة اتشالت من تسجيل الدخول. المجلد لسه مكانه.
 
 ---

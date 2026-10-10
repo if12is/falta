@@ -49,6 +49,10 @@ fi
 pkill -f "falta-hotkey.py" >/dev/null 2>&1 || true
 pkill -x ydotoold >/dev/null 2>&1 || true
 
+APPS="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+rm -f "$APPS/falta-settings.desktop"
+rm -f "${XDG_CONFIG_HOME:-$HOME/.config}/falta/settings.json"
+
 if command -v sudo >/dev/null 2>&1 && [ -f /etc/udev/rules.d/99-falta-uinput.rules ]; then
   sudo rm -f /etc/udev/rules.d/99-falta-uinput.rules || true
 fi
