@@ -57,8 +57,8 @@
       "ubuntu.4": "علّم أي نص في أي برنامج واضغط Ctrl+Shift+Y. فلتة هتشتغل لما تسجّل دخول. على Xorg الأيقونة في الشريط لو الجلسة بتظهرها. على واي لاند مفيش أيقونة، والإعدادات من قائمة البرامج.",
       "mac.1": "نزّل ملف falta-macos.zip.",
       "mac.2": "فك الضغط في مجلد هتسيبه. ما تحذفوش وما تنقلوش.",
-      "mac.3": "اضغط مرتين على ملف التثبيت:",
-      "mac.cmd": "scripts/startup/install-macos.command",
+      "mac.3": "من جوه المجلد، شغّل الأمر ده:",
+      "mac.cmd": "sh scripts/startup/install-macos.sh",
       "mac.4": "علّم أي نص في أي برنامج واضغط Command+Shift+Y. فلتة هتشتغل لما تسجّل دخول. أيقونة فلتة في شريط القائمة فوق."
     },
     en: {
@@ -118,8 +118,8 @@
       "ubuntu.4": "Select text in any program and press Ctrl+Shift+Y. Falta starts when you log in. On Xorg the icon is in the status area when the session can show it. On Wayland there is no tray icon, and settings are in the app menu.",
       "mac.1": "Download falta-macos.zip.",
       "mac.2": "Unzip it into a folder you will keep. Do not delete it or move it.",
-      "mac.3": "Double-click the installer:",
-      "mac.cmd": "scripts/startup/install-macos.command",
+      "mac.3": "From inside that folder, run:",
+      "mac.cmd": "sh scripts/startup/install-macos.sh",
       "mac.4": "Select text in any program and press Command+Shift+Y. Falta starts when you log in. A Falta icon sits in the menu bar."
     }
   };

@@ -2,6 +2,10 @@
 # Installs the Falta system-wide hotkey (Command+Shift+Y) as a login item.
 # The program runs from this unzipped folder. Do not delete or move the folder.
 # Remove it with uninstall-macos.sh.
+#
+# Run this from Terminal: sh scripts/startup/install-macos.sh
+# Double-clicking install-macos.command shows Apple's "could not verify" dialog
+# on macOS 26, because a download keeps a provenance flag that xattr cannot clear.
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname "$0")/../.." && pwd)
@@ -17,8 +21,8 @@ NODE_MSG='فلتة محتاجة برنامج Node عشان تقلب الحروف
 نزّل Node 18 أو أحدث من:
 https://nodejs.org
 
-ثبّته، وبعدين شغّل المثبّت تاني:
-scripts/startup/install-macos.command
+ثبّته، وبعدين شغّل المثبّت تاني من جوه المجلد:
+sh scripts/startup/install-macos.sh
 
 ---
 
@@ -27,8 +31,8 @@ Falta needs Node to flip letters in every program.
 Install Node 18 or newer from:
 https://nodejs.org
 
-Then run this installer again:
-scripts/startup/install-macos.command'
+Then, from inside the folder, run this installer again:
+sh scripts/startup/install-macos.sh'
 
 CLT_MSG='فلتة محتاجة أدوات سطر أوامر أبل عشان تبني البرنامج الصغير.
 

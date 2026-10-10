@@ -381,8 +381,9 @@ private func setRunAtLoad(_ on: Bool) throws {
         var format = PropertyListSerialization.PropertyListFormat.xml
         if var plist = try PropertyListSerialization.propertyList(from: data, options: [], format: &format) as? [String: Any] {
             plist["RunAtLoad"] = on
-            let out = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: [])
-            try out.write(to: url, options: .atomic)
+            // WriteOptions is an Int on the macOS 26 SDK. [] used to be an empty option set.
+            let out = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+            try out.write(to: url, options: Data.WritingOptions.atomic)
             return
         }
     }

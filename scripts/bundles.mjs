@@ -68,17 +68,17 @@ To remove it: sh scripts/startup/uninstall-linux.sh`,
     system: "ماك",
     systemEn: "Mac",
     stepsAr: `1. فك الضغط في مجلد هتسيبه. ما تحذفوش وما تنقلوش، لأن البرنامج بيشتغل منه.
-2. اضغط مرتين على scripts/startup/install-macos.command
-3. لو ظهر إن Node مش موجود، نزّله 18 أو أحدث من https://nodejs.org وبعدين شغّل نفس الملف تاني.
+2. من جوه المجلد شغّل: sh scripts/startup/install-macos.sh
+3. لو ظهر إن Node مش موجود، نزّله 18 أو أحدث من https://nodejs.org وبعدين شغّل نفس الأمر تاني.
 4. أول مرة اسمح لـ FaltaHotkey من System Settings ثم Privacy & Security ثم Accessibility.
 5. علّم أي نص في أي برنامج واضغط Command+Shift+Y. فلتة هتشتغل لما تسجّل دخول. أيقونة فلتة في شريط القائمة فوق.
-للإزالة: اضغط مرتين على scripts/startup/uninstall-macos.command`,
+للإزالة: sh scripts/startup/uninstall-macos.sh`,
     stepsEn: `1. Unzip into a folder you will keep. Do not delete it or move it. The program runs from it.
-2. Double-click scripts/startup/install-macos.command
-3. If it says Node is missing, install Node 18 or newer from https://nodejs.org and run the same file again.
+2. From inside that folder, run: sh scripts/startup/install-macos.sh
+3. If it says Node is missing, install Node 18 or newer from https://nodejs.org and run the same command again.
 4. The first time, allow FaltaHotkey in System Settings, Privacy & Security, Accessibility.
 5. Select text in any program and press Command+Shift+Y. Falta starts when you log in. A Falta icon sits in the menu bar.
-To remove it, double-click scripts/startup/uninstall-macos.command`,
+To remove it: sh scripts/startup/uninstall-macos.sh`,
   },
 ];
 
