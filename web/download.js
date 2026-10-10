@@ -57,6 +57,7 @@
       "ubuntu.4": "علّم أي نص في أي برنامج واضغط Ctrl+Shift+Y. فلتة هتشتغل لما تسجّل دخول. على Xorg الأيقونة في الشريط لو الجلسة بتظهرها. على واي لاند مفيش أيقونة، والإعدادات من قائمة البرامج.",
       "mac.1": "نزّل ملف falta-macos.zip.",
       "mac.2": "فك الضغط. المجلد يفضل في التنزيلات باسم falta-macos. ما تحذفوش وما تنقلوش.",
+      "mac.term": "افتح التيرمنال: اضغط Command+Space، اكتب Terminal، واضغط Enter. الصق الأمر ده جواه واضغط Enter.",
       "mac.cmd": "sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh",
       "mac.access": "بعدها افتح System Settings ثم Privacy & Security ثم Accessibility، وفعّل FaltaHotkey.",
       "mac.4": "علّم أي نص في أي برنامج واضغط Command+Shift+Y. فلتة هتشتغل لما تسجّل دخول. أيقونة فلتة في شريط القائمة فوق."
@@ -118,6 +119,7 @@
       "ubuntu.4": "Select text in any program and press Ctrl+Shift+Y. Falta starts when you log in. On Xorg the icon is in the status area when the session can show it. On Wayland there is no tray icon, and settings are in the app menu.",
       "mac.1": "Download falta-macos.zip.",
       "mac.2": "Unzip it. The folder stays in Downloads, named falta-macos. Do not delete it or move it.",
+      "mac.term": "Open Terminal: press Command+Space, type Terminal, and press Enter. Paste this command into it and press Enter.",
       "mac.cmd": "sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh",
       "mac.access": "Then open System Settings, Privacy & Security, Accessibility, and turn on FaltaHotkey.",
       "mac.4": "Select text in any program and press Command+Shift+Y. Falta starts when you log in. A Falta icon sits in the menu bar."

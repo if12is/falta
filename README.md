@@ -28,7 +28,7 @@
 | `falta-firefox.zip` | فايرفوكس | للتقديم على حساب المطوّر: ارفع الملف نفسه من غير فك ضغط. على جهازك دلوقتي: فك الضغط، ومن `about:debugging` اختار Load Temporary Add-on ثم `manifest.json`. النسخة المؤقتة بتتشال لما فايرفوكس يقفل. |
 | `falta-windows.zip` | ويندوز، لو عايز تقلب النص في أي برنامج على الجهاز | فك الضغط في مجلد هتسيبه، مثلاً `Desktop\Falta`، وما تحذفوش. اضغط مرتين على `scripts\startup\install-windows.cmd`. بعد كده علّم النص واضغط `Ctrl+Shift+Y`. البرنامج يشتغل مع تشغيل ويندوز. أيقونة فلتة بتظهر جنب الساعة، ولو اتخبّت افتح السهم. |
 | `falta-ubuntu.zip` | أوبونتو، لو عايز تقلب النص في أي برنامج | فك الضغط في مجلد هتسيبه وما تحذفوش. من المجلد: `sh scripts/startup/install-linux.sh`. بعد كده `Ctrl+Shift+Y`. يشتغل مع تسجيل الدخول. على Xorg الأيقونة في الشريط لو الجلسة بتظهرها، وعلى واي لاند مفيش أيقونة والإعدادات من قائمة البرامج. |
-| `falta-macos.zip` | ماك، لو عايز تقلب النص في أي برنامج | فك الضغط في التنزيلات. ما تحذفوش وما تنقلوش. الأمر: `sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh`. بعدها فعّل FaltaHotkey من Privacy & Security ثم Accessibility. بعد كده `Command+Shift+Y`. يشتغل مع تسجيل الدخول. أيقونة فلتة في شريط القائمة فوق. |
+| `falta-macos.zip` | ماك، لو عايز تقلب النص في أي برنامج | فك الضغط في التنزيلات. ما تحذفوش وما تنقلوش. افتح Terminal من Command+Space، والصق `sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh`. بعدها فعّل FaltaHotkey من Privacy & Security ثم Accessibility. بعد كده `Command+Shift+Y`. يشتغل مع تسجيل الدخول. أيقونة فلتة في شريط القائمة فوق. |
 
 سفاري مش بيحمّل المجلد. بعد فك ضغط حزمة نظامك افتح `web/index.html`، أو افتح <https://if12is.github.io/falta/>.
 
@@ -109,7 +109,7 @@ sh scripts/startup/uninstall-linux.sh
 
 على واجهة واي لاند، المثبّت ممكن يطلب تثبيت `ydotool` ويطلب كلمة سر الجهاز. على Xorg بيكتفي بمكتبة `libxtst`.
 
-الماك، بعد فك الضغط في التنزيلات:
+الماك، بعد فك الضغط في التنزيلات. افتح Terminal: اضغط Command+Space، اكتب Terminal، واضغط Enter. الصق الأمر واضغط Enter:
 
 ```bash
 sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh
@@ -191,7 +191,7 @@ From <https://github.com/if12is/falta/releases/latest>, pick one file.
 | `falta-firefox.zip` | Firefox | To submit on a developer account: upload the zip itself, still zipped. On your machine right now: unzip, then from `about:debugging` choose Load Temporary Add-on and `manifest.json`. A temporary add-on disappears when Firefox closes. |
 | `falta-windows.zip` | Windows, when you want to flip text in any program | Unzip into a folder you will keep, for example `Desktop\Falta`, and do not delete it. Double-click `scripts\startup\install-windows.cmd`. Then select text and press `Ctrl+Shift+Y`. The program starts with Windows. A Falta icon appears by the clock; if it is hidden, open the arrow. |
 | `falta-ubuntu.zip` | Ubuntu, when you want to flip text in any program | Unzip into a folder you will keep, and do not delete it. From that folder: `sh scripts/startup/install-linux.sh`. Then `Ctrl+Shift+Y`. It starts when you log in. On Xorg the icon is in the status area when the session can show it. On Wayland there is no tray icon, and settings are in the app menu. |
-| `falta-macos.zip` | Mac, when you want to flip text in any program | Unzip into Downloads. Do not delete it or move it. Command: `sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh`. Then turn on FaltaHotkey in Privacy & Security, Accessibility. Then `Command+Shift+Y`. It starts when you log in. A Falta icon sits in the menu bar. |
+| `falta-macos.zip` | Mac, when you want to flip text in any program | Unzip into Downloads. Do not delete it or move it. Open Terminal with Command+Space, then paste `sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh`. Then turn on FaltaHotkey in Privacy & Security, Accessibility. Then `Command+Shift+Y`. It starts when you log in. A Falta icon sits in the menu bar. |
 
 Safari cannot load the folder. After unzipping your system package, open `web/index.html`, or open <https://if12is.github.io/falta/>.
 
@@ -272,7 +272,7 @@ sh scripts/startup/uninstall-linux.sh
 
 On a Wayland session the installer may install `ydotool` and ask for the computer password. On Xorg it uses `libxtst`.
 
-Mac, after unzipping into Downloads:
+Mac, after unzipping into Downloads. Open Terminal: press Command+Space, type Terminal, and press Enter. Paste the command and press Enter:
 
 ```bash
 sh ~/Downloads/falta-macos/scripts/startup/install-macos.sh
